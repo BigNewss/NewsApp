@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_favourite"
+            android:icon="@drawable/icon_nav_favourite"
+            android:title="@string/nav_favourite"/>
+    </group>
+
+    <item
+        android:id="@+id/nav_category"
+        android:title="Category">
+        <menu>
+            <item android:id="@+id/item1" android:title="Placeholder"></item>
+        </menu>
+    </item>
+</menu>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="categories">
+        <item>Technology</item>
+        <item>Education</item>
+        <item>Military</item>
+        <item>National</item>
+        <item>Society</item>
+        <item>Culture</item>
+        <item>Automobile</item>
+        <item>International</item>
+        <item>Sport</item>
+        <item>Business</item>
+        <item>Health</item>
+        <item>Entertainment</item>
+    </string-array>
+</resources>
+

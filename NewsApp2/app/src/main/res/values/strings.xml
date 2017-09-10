@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name">NewsApp2</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Cateory</string>
+    <string name="title_notifications">Settings</string>
+    <string name="drawer_open">OPEN</string>
+    <string name="drawer_close">CLOSE</string>
+
+    <string name="nav_favourite">Favourite</string>
+    <string name="nav_saved">Saved</string>
+    <string name="nav_category">Category</string>
+
+    <string name="type_0">Technology</string>
+    <string name="type_1">Education</string>
+    <string name="type_2">Military</string>
+    <string name="type_3">National</string>
+    <string name="type_4">Society</string>
+    <string name="type_5">Culture</string>
+    <string name="type_6">Automobile</string>
+    <string name="type_7">International</string>
+    <string name="type_8">Sport</string>
+    <string name="type_9">Business</string>
+    <string name="type_10">Health</string>
+    <string name="type_11">Entertainment</string>
+
+    <string name="menu_search">Search</string>
+    <string name="menu_settings">Settings</string>
+    <string name="title_activity_text">TextActivity</string>
+</resources>
