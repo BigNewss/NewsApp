@@ -55,14 +55,15 @@ public class MainActivity extends AppCompatActivity {
         StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
                 .detectLeakedSqlLiteObjects().detectLeakedClosableObjects()
                 .penaltyLog().penaltyDeath().build());
+        initDrawer();
+        initNewsList();
+        initMark();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        initDrawer();
-        initNewsList();
-        initMark();
+        initNavigationView();
     }
 
     private void initDrawer() {
