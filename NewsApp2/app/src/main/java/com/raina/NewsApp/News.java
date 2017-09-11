@@ -97,7 +97,7 @@ class News {
             res = res.replace("　", "");
         } else {
             res = res.replace(" ", "");
-            res = res.replace("　　", "\n　　");
+            res = res.replace("　　", "\n\n　　");
         }
         newsDetail = res;
         return res;

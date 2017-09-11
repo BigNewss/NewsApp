@@ -12,8 +12,14 @@
         android:icon="@drawable/icon_share"
         app:showAsAction="ifRoom"/>
     <item
+        android:id="@+id/menu_speak"
+        android:title="speak"
+        android:icon="@drawable/icon_speak"
+        app:showAsAction="ifRoom"/>
+    <item
         android:id="@+id/menu_more"
         android:title="more"
         android:icon="@drawable/icon_more"
         app:showAsAction="ifRoom"/>
+
 </menu>

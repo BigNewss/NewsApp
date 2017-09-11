@@ -55,15 +55,14 @@ public class MainActivity extends AppCompatActivity {
         StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
                 .detectLeakedSqlLiteObjects().detectLeakedClosableObjects()
                 .penaltyLog().penaltyDeath().build());
-        initDrawer();
-        initNewsList();
-        initMark();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        initNavigationView();
+        initDrawer();
+        initNewsList();
+        initMark();
     }
 
     private void initDrawer() {
@@ -79,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
         drawerLayout.setDrawerListener(drawerToggle);
         drawerToggle.syncState();
 
-        //NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view_drawer);
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view_drawer);
 
 //        navigationView.setNavigationItemSelectedListener(
 //                new NavigationView.OnNavigationItemSelectedListener() {
@@ -107,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
 //        );
         initNavigationView();
     }
-
+    private SearchView.SearchAutoComplete mSearchAutoComplete;
     private void initToolbar() {
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -354,14 +353,13 @@ public class MainActivity extends AppCompatActivity {
             newsSystem.updateMarkNewsList(getApplicationContext());
         } catch (Exception e) {}
     }
-
     private void initNavigationView(){
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view_drawer);
         Menu navMenu = navigationView.getMenu();
         SubMenu menu = navMenu.findItem(R.id.nav_category).getSubMenu();
         menu.clear();
         String[] categories = getResources().getStringArray(R.array.categories);
-        for(int i = 0; i < 12; i++){
+        for(int i = 0; i< 12; i++){
             if(Category.getCategory().get(i)){
                 menu.add(Menu.NONE,Menu.FIRST+i,i,categories[i]);
             }
