@@ -2,13 +2,12 @@
 <resources>
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorBackground">#e7e8ec</color>
-    <color name="colorGrey">#222222</color>
-    <color name="color1">#ffff00</color>
-    <color name="color2">#ff00ff</color>
-    <color name="colorPrimary">#1ac2dc</color>
-    <color name="colorPrimaryDark">#089cf2</color>
+
+    <color name="colorPrimary">#bdc0c9</color>
+    <color name="colorPrimaryDark">#5b667a</color>
     <color name="colorAccent">#FF4081</color>
-    <color name="item_text_color">#0e0e0e</color>
-    <color name="item_text_bg">#eceded</color>
-    <color name="layout_bg">#f4f4f4</color>
+    <color name="colorGrey">#222222</color>
+
+    <color name="text_color">#333333</color>
+    <color name="title_color">#5b667a</color>
 </resources>
