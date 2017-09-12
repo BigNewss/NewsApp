@@ -10,6 +10,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.ActionMenuView;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.view.Gravity;
 import android.view.MenuInflater;
 import android.view.View;
@@ -34,6 +36,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
+import android.text.method.LinkMovementMethod;
 import com.iflytek.cloud.InitListener;
 import com.iflytek.cloud.SpeechConstant;
 import com.iflytek.cloud.SpeechError;
@@ -128,12 +131,12 @@ public class TextActivity extends AppCompatActivity {
                         popupWindow.showAtLocation(findViewById(R.id.menu_share), Gravity.BOTTOM, 0, 0);
                         break;
                     case R.id.menu_speak:
-                        mySynthesizer.setParameter(SpeechConstant.VOICE_NAME,"xiaoyan");
+                        mySynthesizer.setParameter(SpeechConstant.VOICE_NAME,"xiaoyu");
                         //设置音调
                         mySynthesizer.setParameter(SpeechConstant.PITCH,"50");
                         //设置音量
                         mySynthesizer.setParameter(SpeechConstant.VOLUME,"50");
-                        String tts = intro;
+                        String tts = pureText;
                         int code = mySynthesizer.startSpeaking(tts, mTtsListener);
                         Log.d("mySynthesiezer start code:", code+"");
                         break;
@@ -185,13 +188,16 @@ public class TextActivity extends AppCompatActivity {
 
     }
 
-    String intro;
+    String body;
+    String pureText;
 
     private void initContent() {
         Intent intent = getIntent();
         String title = intent.getStringExtra("Title");
-        String body = intent.getStringExtra("Body");
-        ((TextView) findViewById(R.id.textview_body)).setText(body);
+        body = intent.getStringExtra("Body");
+        pureText = body.replaceAll("<(\\s|\\S)*?>", "");
+        ((TextView) findViewById(R.id.textview_body)).setText(Html.fromHtml(body));
+        ((TextView) findViewById(R.id.textview_body)).setMovementMethod(LinkMovementMethod.getInstance());
         ((TextView) findViewById(R.id.textview_title)).setText(title);
         ((TextView) findViewById(R.id.textview_subtitle)).setText(MainActivity.currentNews.getNewsAuthor());
         String[] imageList = MainActivity.currentNews.getNewsPictures();

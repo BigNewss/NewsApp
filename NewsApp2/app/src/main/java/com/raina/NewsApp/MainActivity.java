@@ -14,6 +14,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.support.v7.widget.Toolbar;
 import android.graphics.Color;
@@ -25,6 +26,7 @@ import android.widget.Button;
 import android.support.v4.view.MenuItemCompat;
 import java.lang.reflect.Method;
 import android.util.Log;
+import android.graphics.Typeface;
 import android.view.SubMenu;
 import java.io.*;
 
@@ -58,6 +60,9 @@ public class MainActivity extends AppCompatActivity {
         initDrawer();
         initNewsList();
         initMark();
+
+
+
     }
 
     @Override
@@ -81,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
 
         initNavigationView();
     }
-    private SearchView.SearchAutoComplete mSearchAutoComplete;
+
     private void initToolbar() {
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -89,27 +94,6 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-        /*
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mSearchAutoComplete.isShown()) {
-                    try {
-                        //如果搜索框中有文字，则会先清空文字，但网易云音乐是在点击返回键时直接关闭搜索框
-                        mSearchAutoComplete.setText("");
-                        Toast.makeText(MainActivity.this, "close", Toast.LENGTH_SHORT).show();
-                        Method method = searchView.getClass().getDeclaredMethod("onCloseClicked");
-                        method.setAccessible(true);
-                        method.invoke(searchView);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                } else {
-                    finish();
-                }
-            }
-        });
-        */
     }
 
     private void initNewsList(){
@@ -141,6 +125,14 @@ public class MainActivity extends AppCompatActivity {
                 MainActivity.this.startActivity(intent);
             }
         });
+
+        Typeface tf1 = Typeface.createFromAsset(getAssets(), "fonts/PingFangLight.ttf");
+        try {
+            ((TextView) findViewById(R.id.news_title)).setTypeface(tf1);
+        }catch(Exception e) {
+            Toast.makeText(MainActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     /* show latest news */

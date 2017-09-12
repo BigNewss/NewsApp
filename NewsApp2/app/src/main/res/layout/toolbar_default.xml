@@ -8,6 +8,6 @@
     android:background="@color/colorPrimaryDark"
     android:minHeight="50dp"
     app:title=" "
-    app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+    app:theme="@style/ThemeOverlay.AppCompat.Dark"
     android:popupTheme="@style/ToolbarPopupTheme">
 </android.support.v7.widget.Toolbar>
