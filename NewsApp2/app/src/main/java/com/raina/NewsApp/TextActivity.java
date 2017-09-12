@@ -200,6 +200,7 @@ public class TextActivity extends AppCompatActivity {
     private void initContent() {
         Intent intent = getIntent();
         final String title = intent.getStringExtra("Title");
+        final String keyWords = intent.getStringExtra("keywords");
         body = intent.getStringExtra("Body");
         pureText = body.replaceAll("<(\\s|\\S)*?>", "");
         ((TextView) findViewById(R.id.textview_body)).setText(Html.fromHtml(body));
@@ -220,6 +221,7 @@ public class TextActivity extends AppCompatActivity {
                             //从网络上获取图片
                             final Bitmap bitmap=returnBitMap(get_path);
 
+<<<<<<< HEAD
                             try {
                                 Thread.sleep(500);//线程休眠两秒钟
                             } catch (InterruptedException e) {
@@ -229,6 +231,28 @@ public class TextActivity extends AppCompatActivity {
                             //alpha.setRepeatCount(0);//循环显示
                             //发送一个Runnable对象
                             imageView.post(new Runnable(){
+=======
+        if(imageList.length > 0) {
+            try {
+                //imageView.setImageBitmap(returnBitMap(imageList[0]));
+                final String get_path = imageList[0];
+                new Thread(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        //从网络上获取图片
+                        final Bitmap bitmap=returnBitMap(get_path);
+
+                        try {
+                            Thread.sleep(500);//线程休眠两秒钟
+                        } catch (InterruptedException e) {
+                            // TODO Auto-generated catch block
+                            //e.printStackTrace();
+                        }
+                        //alpha.setRepeatCount(0);//循环显示
+                        //发送一个Runnable对象
+                        imageView.post(new Runnable(){
+>>>>>>> 36fe7a210b68f163ba532253048b99a5efae1cce
 
 
                                 @Override
@@ -245,7 +269,7 @@ public class TextActivity extends AppCompatActivity {
         } else {
             try {
                 //imageView.setImageBitmap(returnBitMap(GetPictures.getURL(title)));
-                //final String get_path = GetPictures.getURL(title);
+                //final String gsset_path = GetPictures.getURL(title);
                 new Thread(new Runnable() {
 
                     @Override
@@ -253,7 +277,7 @@ public class TextActivity extends AppCompatActivity {
                         //从网络上获取图片
                         String get_path = "";
                         try {
-                            get_path = GetPictures.getURL(title);
+                            get_path = GetPictures.getURL(keyWords);
                         } catch (Exception e) {}
                         final Bitmap bitmap=returnBitMap(get_path);
 
@@ -277,11 +301,18 @@ public class TextActivity extends AppCompatActivity {
                             //从网络上获取图片
                             final Bitmap bitmap=returnBitMap(get_path);
 
+<<<<<<< HEAD
                             try {
                                 Thread.sleep(500);//线程休眠两秒钟
                             } catch (InterruptedException e) {
                                 // TODO Auto-generated catch block
                                 e.printStackTrace();
+=======
+                            @Override
+                            public void run() {
+                                if (bitmap != null)
+                                    imageView.setImageBitmap(bitmap);//在ImageView中显示从网络上获取到的图片
+>>>>>>> 36fe7a210b68f163ba532253048b99a5efae1cce
                             }
                             //alpha.setRepeatCount(0);//循环显示
                             //发送一个Runnable对象
@@ -335,10 +366,13 @@ public class TextActivity extends AppCompatActivity {
             conn.connect();//打开连接
             InputStream is=conn.getInputStream();//获取输入流对象
             bm=BitmapFactory.decodeStream(is);//根据输入流对象创建Bitmap对象
+            is.close();
         } catch (MalformedURLException e1) {
-            e1.printStackTrace();//输出异常信息
+            //e1.printStackTrace();//输出异常信息
+            bm = null;
         }catch (IOException e) {
-            e.printStackTrace();//输出异常信息
+            bm = null;
+            //e.printStackTrace();//输出异常信息
         }
 
 

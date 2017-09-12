@@ -1,5 +1,6 @@
 package com.raina.NewsApp;
 
+import java.lang.Math.*;
 import java.net.*;
 import java.io.*;
 import java.util.*;
@@ -35,6 +36,7 @@ class URLTest {
 }
 
 class News implements Serializable{
+    String keyWords;
     String langType; // 新闻语言
     String newsClassTag; // 种类标记
     String newsAuthor; // 新闻作者
@@ -53,6 +55,7 @@ class News implements Serializable{
     }
 
     News() {
+        keyWords = "";
         langType = "";
         newsClassTag = "";
         newsAuthor = "";
@@ -81,6 +84,7 @@ class News implements Serializable{
     }
 
     News(JSONObject Obj) throws Exception {
+        keyWords = "";
         newsDetail = "";
         try {
             newsDetail = Obj.get("news_Content").toString();
@@ -90,6 +94,7 @@ class News implements Serializable{
         langType = Obj.get("lang_Type").toString();
         newsClassTag = Obj.get("newsClassTag").toString();
         newsAuthor = Obj.get("news_Author").toString();
+        if (newsAuthor.equals("")) newsAuthor = "Unknown";
         newsId = Obj.get("news_ID").toString();
         String tmp  = Obj.get("news_Pictures").toString();
         if (tmp.equals("")) newsPictures = new String[0];
@@ -137,6 +142,13 @@ class News implements Serializable{
             res = res.replaceAll("　　　　　　", "　　");
             res = res.replaceAll("　　　　", "　　");
             res = res.replaceAll("　　", "<br /><br />　　");
+        }
+        JSONArray keywordsArray = new JSONArray(json.get("Keywords").toString());
+        int len = 3 < keywordsArray.length() ? 3 : keywordsArray.length();
+        for (int i = 0; i < len; i++) {
+            JSONObject keyword = keywordsArray.getJSONObject(i);
+            if (keyWords.equals("")) keyWords = keyword.get("word").toString();
+            else keyWords += " " + keyword.get("word").toString();
         }
         String personsString = json.get("persons").toString();
         JSONArray personsArray = new JSONArray(personsString);
@@ -326,5 +338,7 @@ class News implements Serializable{
     String getNewsIntro() {
         return newsIntro;
     }
+
+    String getKeyWords() { return keyWords; }
 
 }
