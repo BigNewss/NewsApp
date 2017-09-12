@@ -136,6 +136,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.O
                 }
                 intent.putExtra("Title", title);
                 intent.putExtra("Body", body);
+                intent.putExtra("keywords", ((News)parent.getItemAtPosition(pos)).getKeyWords());
                 currentNews = (News)parent.getItemAtPosition(pos);
                 MainActivity.this.startActivity(intent);
             }
@@ -215,17 +216,25 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.O
         } catch(Exception e) {
             Toast.makeText(MainActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
         }
+        newsList = favouriteNewsList;
         prevNewsList = (ArrayList<News>) favouriteNewsList.clone();
         //adapter = new NewsAdapter(MainActivity.this, R.layout.news_item_layout, Arrays.asList(favouriteNewsList));
-        adapter = new NewsAdapter(MainActivity.this, favouriteNewsList);
+        adapter = new NewsAdapter(MainActivity.this, newsList);
         newsListView.setAdapter(adapter);
     }
 
     private void restoreNewsList() {
-        news_type = tmp_news_type;
-        //adapter = new NewsAdapter(MainActivity.this, R.layout.news_item_layout, Arrays.asList(prevNewsList));
-        adapter = new NewsAdapter(MainActivity.this, prevNewsList);
+        if (news_type == 13) news_type = tmp_news_type;
+        newsList = new ArrayList<>();
+        for (int i = 0; i < prevNewsList.size(); i++)
+            newsList.add(prevNewsList.get(i));
+        //prevNewsList = (ArrayList<News>) newsList.clone();
+        //adapter = new NewsAdapter(MainActivity.this, R.layout.news_item_layout, Arrays.asList(categoryNewsList));
+        adapter = new NewsAdapter(MainActivity.this, newsList);
         newsListView.setAdapter(adapter);
+        //adapter = new NewsAdapter(MainActivity.this, R.layout.news_item_layout, Arrays.asList(prevNewsList));
+        //adapter = new NewsAdapter(MainActivity.this, prevNewsList);
+        //newsListView.setAdapter(adapter);
     }
 
     private void translucentStatusBar() {
@@ -379,6 +388,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.O
                 switch (item.getItemId()) {
                     case R.id.nav_favourite:
                         updateFavouriteNewsList();
+                        news_type = -2;
                         break;
                     case R.id.nav_home:
                         updateNewsList();
@@ -437,6 +447,13 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.O
     @Override
     public void onDownPullRefresh() {
         Toast.makeText(this,"下拉",Toast.LENGTH_SHORT).show();
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                newsListView.onRefreshComplete();
+            }
+        }, 1000);
 
 //        //因为本例中没有从网络获取数据，因此这里使用Handler演示4秒延迟来从服务器获取数据的延迟现象，以便于大家
 //        // 能够看到listView正在刷新的状态。大家在现实使用时只需要使用run（）{}方法中的代码就行了。
@@ -460,20 +477,32 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.O
     @Override
     public void onLoadingMore() {
         Toast.makeText(this,"上拉",Toast.LENGTH_SHORT).show();
-        //因为本例中没有从网络获取数据，因此这里使用Handler演示4秒延迟来从服务器获取数据的延迟现象，以便于大家
-        // 能够看到listView正在刷新的状态。大家在现实使用时只需要使用run（）{}方法中的代码就行了。
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                //获取更多的数据
-                getLoadMoreData();
-                //更新listview显示
-                showListView(newsList);
-                //通知listview加载完毕
-                newsListView.loadMoreComplete();
-            }
-        }, 1000);
+        if (news_type == -2) {
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    //showListView(newsList);
+                    //通知listview加载完毕
+                    newsListView.loadMoreComplete();
+                }
+            }, 0);
+        } else {
+            //因为本例中没有从网络获取数据，因此这里使用Handler演示4秒延迟来从服务器获取数据的延迟现象，以便于大家
+            // 能够看到listView正在刷新的状态。大家在现实使用时只需要使用run（）{}方法中的代码就行了。
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    //获取更多的数据
+                    getLoadMoreData();
+                    //更新listview显示
+                    showListView(newsList);
+                    //通知listview加载完毕
+                    newsListView.loadMoreComplete();
+                }
+            }, 1000);
+        }
     }
 
     private void getLoadMoreData() {

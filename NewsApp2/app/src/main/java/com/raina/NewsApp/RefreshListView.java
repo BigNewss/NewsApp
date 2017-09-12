@@ -254,7 +254,7 @@ public class RefreshListView extends ListView implements OnScrollListener {
      */
     public void onRefreshComplete() {
         headerView.setPadding(0, -headerViewHeight, 0, 0);
-        ivArrow.setVisibility(View.VISIBLE);
+        //ivArrow.setVisibility(View.INVISIBLE);
         mProgressBar.setVisibility(View.GONE);
         tvState.setText("下拉刷新");
         tvLastUpdateTimes.setText("最近更新时间:" + getLastUpdateTime());
@@ -265,7 +265,8 @@ public class RefreshListView extends ListView implements OnScrollListener {
      * 为外界提供的方法，当Activity中的加载更多数据加载完后，就调用这个方法来隐藏底部的footerView
      */
     public void loadMoreComplete() {
-        headerView.setPadding(0, -headerViewHeight, 0, 0);
+        footerView.setPadding(0, -footerViewHeight, 0, 0);
+        //footerView.setVisibility(View.INVISIBLE);
         isLoadingMore = false;
     }
 
