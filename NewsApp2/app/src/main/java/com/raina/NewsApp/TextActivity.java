@@ -199,7 +199,6 @@ public class TextActivity extends AppCompatActivity {
 
     private void initContent() {
         Intent intent = getIntent();
-        String title = intent.getStringExtra("Title");
         body = intent.getStringExtra("Body");
         pureText = body.replaceAll("<(\\s|\\S)*?>", "");
         ((TextView) findViewById(R.id.textview_body)).setText(Html.fromHtml(body));
@@ -238,6 +237,33 @@ public class TextActivity extends AppCompatActivity {
 
                             });
 
+<<<<<<< HEAD
+=======
+                    }
+                }).start();
+            } catch(Exception e) {
+            }
+        } else {
+            try {
+                //imageView.setImageBitmap(returnBitMap(GetPictures.getURL(title)));
+                //final String get_path = GetPictures.getURL(title);
+                new Thread(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        //从网络上获取图片
+                        String get_path = "";
+                        try {
+                            get_path = GetPictures.getURL(title);
+                        } catch (Exception e) {}
+                        final Bitmap bitmap=returnBitMap(get_path);
+
+                        try {
+                            Thread.sleep(500);//线程休眠两秒钟
+                        } catch (InterruptedException e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+>>>>>>> 785d26dd7fea907382d79c19cfa17f131971e973
                         }
                     }).start();
                 } catch(Exception e) {
