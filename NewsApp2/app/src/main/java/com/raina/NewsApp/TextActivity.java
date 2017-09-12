@@ -199,6 +199,7 @@ public class TextActivity extends AppCompatActivity {
 
     private void initContent() {
         Intent intent = getIntent();
+        final String title = intent.getStringExtra("Title");
         body = intent.getStringExtra("Body");
         pureText = body.replaceAll("<(\\s|\\S)*?>", "");
         ((TextView) findViewById(R.id.textview_body)).setText(Html.fromHtml(body));
@@ -237,8 +238,6 @@ public class TextActivity extends AppCompatActivity {
 
                             });
 
-<<<<<<< HEAD
-=======
                     }
                 }).start();
             } catch(Exception e) {
@@ -263,10 +262,9 @@ public class TextActivity extends AppCompatActivity {
                         } catch (InterruptedException e) {
                             // TODO Auto-generated catch block
                             e.printStackTrace();
->>>>>>> 785d26dd7fea907382d79c19cfa17f131971e973
                         }
                     }).start();
-                } catch(Exception e) {
+                } catch (Exception e) {
                 }
             } else {
                 try {
