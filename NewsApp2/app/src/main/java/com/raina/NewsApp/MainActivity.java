@@ -130,6 +130,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 intent.putExtra("Title", title);
                 intent.putExtra("Body", body);
+                intent.putExtra("keywords", ((News)parent.getItemAtPosition(pos)).getKeyWords());
                 currentNews = (News)parent.getItemAtPosition(pos);
                 MainActivity.this.startActivity(intent);
             }
