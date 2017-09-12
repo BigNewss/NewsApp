@@ -325,6 +325,7 @@ public class MainActivity extends AppCompatActivity {
                 menu.add(Menu.NONE,Menu.FIRST+i,i,categories[i]);
             }
         }
+
         menu.add(Menu.NONE, Menu.FIRST + 12, 12, "Edit");
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override

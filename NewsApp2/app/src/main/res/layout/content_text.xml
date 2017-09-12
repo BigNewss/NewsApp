@@ -7,6 +7,7 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.raina.NewsApp.TextActivity"
+    android:background="@color/colorBackground"
     tools:showIn="@layout/activity_text">
 
     <ScrollView
@@ -34,6 +35,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
+                android:textColor="@color/title_color"
                 android:layout_marginHorizontal="20dp"
                 android:textSize="15dp"/>
 
@@ -42,6 +44,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
+                android:textColor="@color/title_color"
                 android:layout_marginHorizontal="20dp"
                 android:textSize="25dp"/>
 
@@ -49,7 +52,7 @@
                 android:id="@+id/textview_body"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/colorGrey"
+                android:textColor="@color/text_color"
                 android:padding="15dp"/>
         </LinearLayout>
     </ScrollView>
