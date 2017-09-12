@@ -146,6 +146,7 @@ public class MainActivity extends AppCompatActivity {
 
     /* show news in a category */
     private void updateNewsList(int type) {
+        type--;
         News[] categoryNewsList = new News[0];
         try {
             newsSystem.getCategoryNews(type);
@@ -213,8 +214,6 @@ public class MainActivity extends AppCompatActivity {
         searchView.setQueryHint("Search");
         searchView.setSubmitButtonEnabled(true);//设置最右侧的提交按钮
         searchItem.setActionView(searchView);
-
-
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 
