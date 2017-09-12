@@ -151,6 +151,19 @@ public class MainActivity extends AppCompatActivity {
         newsListView.setAdapter(adapter);
     }
 
+    private void showNewsList(int type) {
+        type--;
+        News[] categoryNewsList = new News[0];
+        try {
+            categoryNewsList = newsSystem.getCategoryNewsList(type);
+        } catch(Exception e) {
+            Toast.makeText(MainActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
+        }
+        prevNewsList = (News[]) categoryNewsList.clone();
+        adapter = new NewsAdapter(MainActivity.this, R.layout.news_item_layout, categoryNewsList);
+        newsListView.setAdapter(adapter);
+    }
+
     /* show news in a category */
     private void updateNewsList(int type) {
         type--;
@@ -385,8 +398,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                         break;
                     default:
-                        //
-                         updateNewsList(item.getItemId());
+                         showNewsList(item.getItemId());
                         break;
                 }
                 drawerLayout.closeDrawers();

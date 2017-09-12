@@ -28,7 +28,7 @@ public class EditCategoryActivity extends Activity implements View.OnClickListen
     @Override
     protected void onStart() {
         super.onStart();
-        addButton();
+        //addButton();
     }
 
     //保存持久性数据
@@ -52,11 +52,12 @@ public class EditCategoryActivity extends Activity implements View.OnClickListen
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
     }
+    /*
     private void addButton(){
         LinearLayout layout = (LinearLayout) findViewById(R.id.linearLayout_edit_category);
         layout.setOrientation(LinearLayout.VERTICAL);
         String[] categories = getResources().getStringArray(R.array.categories);
-        
+
         for (int i = 0; i < 12; i++){
             Button button = new Button(this);
             button.setId(i);
@@ -71,6 +72,7 @@ public class EditCategoryActivity extends Activity implements View.OnClickListen
         }
         setContentView(layout);
     }
+    */
     private void changeColor(Button but){
         if(((ColorDrawable)but.getBackground()).getColor() == getResources().getColor(R.color.colorAccent)){
             but.setBackgroundColor(getResources().getColor(R.color.colorPrimary));

@@ -16,6 +16,7 @@ import android.view.Gravity;
 import android.view.MenuInflater;
 import android.view.View;
 import android.content.Intent;
+import android.view.Window;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -61,7 +62,7 @@ public class TextActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_text);
-
+        //this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         //语音初始化，在使用应用使用时需要初始化一次就好，如果没有这句会出现10111初始化失败
         SpeechUtility.createUtility(TextActivity.this, "appid=59b0e6cf");
         //处理语音合成关键类
@@ -79,7 +80,7 @@ public class TextActivity extends AppCompatActivity {
         initToolbar();
         initContent();
         initPopupWindow();
-
+        getWindow().setTitle("abc");
     }
 
     @Override
@@ -95,17 +96,22 @@ public class TextActivity extends AppCompatActivity {
         }
     };
 
+
     private void initToolbar() {
+
         toolbar = (Toolbar) findViewById(R.id.toolbar_text);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
+
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
+
+
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
@@ -200,79 +206,80 @@ public class TextActivity extends AppCompatActivity {
         ((TextView) findViewById(R.id.textview_body)).setMovementMethod(LinkMovementMethod.getInstance());
         ((TextView) findViewById(R.id.textview_title)).setText(title);
         ((TextView) findViewById(R.id.textview_subtitle)).setText(MainActivity.currentNews.getNewsAuthor());
-        String[] imageList = MainActivity.currentNews.getNewsPictures();
         final ImageView imageView = (ImageView) findViewById(R.id.imageview_body);
+        if(MainActivity.picMode) {
+            String[] imageList = MainActivity.currentNews.getNewsPictures();
+            if(imageList.length > 0) {
+                try {
+                    //imageView.setImageBitmap(returnBitMap(imageList[0]));
+                    final String get_path = imageList[0];
+                    new Thread(new Runnable() {
 
-        if(imageList.length > 0) {
-            try {
-                //imageView.setImageBitmap(returnBitMap(imageList[0]));
-                final String get_path = imageList[0];
-                new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            //从网络上获取图片
+                            final Bitmap bitmap=returnBitMap(get_path);
 
-                    @Override
-                    public void run() {
-                        //从网络上获取图片
-                        final Bitmap bitmap=returnBitMap(get_path);
-
-                        try {
-                            Thread.sleep(500);//线程休眠两秒钟
-                        } catch (InterruptedException e) {
-                            // TODO Auto-generated catch block
-                            e.printStackTrace();
-                        }
-                        //alpha.setRepeatCount(0);//循环显示
-                        //发送一个Runnable对象
-                        imageView.post(new Runnable(){
-
-
-                            @Override
-                            public void run() {
-                                imageView.setImageBitmap(bitmap);//在ImageView中显示从网络上获取到的图片
+                            try {
+                                Thread.sleep(500);//线程休眠两秒钟
+                            } catch (InterruptedException e) {
+                                // TODO Auto-generated catch block
+                                e.printStackTrace();
                             }
+                            //alpha.setRepeatCount(0);//循环显示
+                            //发送一个Runnable对象
+                            imageView.post(new Runnable(){
 
-                        });
 
-                    }
-                }).start();
-            } catch(Exception e) {
+                                @Override
+                                public void run() {
+                                    imageView.setImageBitmap(bitmap);//在ImageView中显示从网络上获取到的图片
+                                }
+
+                            });
+
+                        }
+                    }).start();
+                } catch(Exception e) {
+                }
+            } else {
+                try {
+                    //imageView.setImageBitmap(returnBitMap(GetPictures.getURL(title)));
+                    final String get_path = GetPictures.getURL(title);
+                    new Thread(new Runnable() {
+
+                        @Override
+                        public void run() {
+                            //从网络上获取图片
+                            final Bitmap bitmap=returnBitMap(get_path);
+
+                            try {
+                                Thread.sleep(500);//线程休眠两秒钟
+                            } catch (InterruptedException e) {
+                                // TODO Auto-generated catch block
+                                e.printStackTrace();
+                            }
+                            //alpha.setRepeatCount(0);//循环显示
+                            //发送一个Runnable对象
+                            imageView.post(new Runnable(){
+
+
+                                @Override
+                                public void run() {
+                                    imageView.setImageBitmap(bitmap);//在ImageView中显示从网络上获取到的图片
+                                }
+
+                            });
+                        }
+                    }).start();
+                } catch(Exception e) {
+
+                }
             }
+
         } else {
-            try {
-                //imageView.setImageBitmap(returnBitMap(GetPictures.getURL(title)));
-                final String get_path = GetPictures.getURL(title);
-                new Thread(new Runnable() {
-
-                    @Override
-                    public void run() {
-                        //从网络上获取图片
-                        final Bitmap bitmap=returnBitMap(get_path);
-
-                        try {
-                            Thread.sleep(500);//线程休眠两秒钟
-                        } catch (InterruptedException e) {
-                            // TODO Auto-generated catch block
-                            e.printStackTrace();
-                        }
-                        //alpha.setRepeatCount(0);//循环显示
-                        //发送一个Runnable对象
-                        imageView.post(new Runnable(){
-
-
-                            @Override
-                            public void run() {
-                                imageView.setImageBitmap(bitmap);//在ImageView中显示从网络上获取到的图片
-                            }
-
-                        });
-
-                    }
-                }).start();
-            } catch(Exception e) {
-
-            }
+            imageView.setImageDrawable(null);
         }
-
-        //toolbar.setTitle(title);
     }
 
     private void initPopupWindow() {
