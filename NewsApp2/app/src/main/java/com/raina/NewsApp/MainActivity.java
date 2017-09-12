@@ -39,15 +39,15 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.O
     public static NewsSystem newsSystem;
     public static boolean picMode = true;
     public static boolean nightMode;
-
-    private List<News> newsList;
+    private String type = "-1";
+    private ArrayList<News> newsList;
     private NewsAdapter adapter;
     private DrawerLayout drawerLayout;
     private Toolbar toolbar;
     //private ListView newsListView;
     private RefreshListView newsListView;
     private SearchView searchView;
-    private News[] prevNewsList;
+    private ArrayList<News> prevNewsList;
     public static Context context;
     private static String THEME_KEY = "theme_mode";
 
@@ -117,7 +117,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.O
         //newsListView.addHeaderView(headerImage);
 
         initNews();
-        prevNewsList = (News[]) newsList.toArray().clone();
+        prevNewsList = (ArrayList<News>) newsList.clone();
         //adapter = new NewsAdapter(MainActivity.this, R.layout.news_item_layout, newsList);
         adapter = new NewsAdapter(this, newsList);
         newsListView.setAdapter(adapter);
@@ -161,22 +161,22 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.O
     /* show news in a category */
     private void updateNewsList(int type) {
         type--;
-        News[] categoryNewsList = new News[0];
+        ArrayList<News> categoryNewsList = new ArrayList<>();
         try {
             newsSystem.getCategoryNews(type);
             categoryNewsList = newsSystem.getCategoryNewsList(type);
         } catch(Exception e) {
             Toast.makeText(MainActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
         }
-        prevNewsList = (News[]) categoryNewsList.clone();
+        prevNewsList = (ArrayList<News>) categoryNewsList.clone();
         //adapter = new NewsAdapter(MainActivity.this, R.layout.news_item_layout, Arrays.asList(categoryNewsList));
-        adapter = new NewsAdapter(MainActivity.this, Arrays.asList(categoryNewsList));
+        adapter = new NewsAdapter(MainActivity.this, categoryNewsList);
         newsListView.setAdapter(adapter);
     }
 
     /* show search results */
     private void updateNewsList(String query) {
-        News[] searchNewsList = new News[0];
+        ArrayList<News> searchNewsList = new ArrayList<>();
         newsSystem.searchInit(query);
         try{
             newsSystem.searchNews();
@@ -185,27 +185,27 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.O
             Toast.makeText(MainActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
         }
         //adapter = new NewsAdapter(MainActivity.this, R.layout.news_item_layout, Arrays.asList(searchNewsList));
-        adapter = new NewsAdapter(MainActivity.this, Arrays.asList(searchNewsList));
+        adapter = new NewsAdapter(MainActivity.this, searchNewsList);
         newsListView.setAdapter(adapter);
     }
 
     /* show favorite news */
     private void updateFavouriteNewsList() {
-        News[] favouriteNewsList = new News[0];
+        ArrayList<News> favouriteNewsList = new ArrayList<>();
         try{
             favouriteNewsList = newsSystem.getMarkNewsList();
         } catch(Exception e) {
             Toast.makeText(MainActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
         }
-        prevNewsList = (News[]) favouriteNewsList.clone();
+        prevNewsList = (ArrayList<News>) favouriteNewsList.clone();
         //adapter = new NewsAdapter(MainActivity.this, R.layout.news_item_layout, Arrays.asList(favouriteNewsList));
-        adapter = new NewsAdapter(MainActivity.this, Arrays.asList(favouriteNewsList));
+        adapter = new NewsAdapter(MainActivity.this, favouriteNewsList);
         newsListView.setAdapter(adapter);
     }
 
     private void restoreNewsList() {
         //adapter = new NewsAdapter(MainActivity.this, R.layout.news_item_layout, Arrays.asList(prevNewsList));
-        adapter = new NewsAdapter(MainActivity.this, Arrays.asList(prevNewsList));
+        adapter = new NewsAdapter(MainActivity.this, prevNewsList);
         newsListView.setAdapter(adapter);
     }
 
@@ -279,7 +279,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.O
         try {
             newsSystem = new NewsSystem();
             newsSystem.getLatestNews();
-            newsList = Arrays.asList(newsSystem.getLatestNewsList());
+            newsList = newsSystem.getLatestNewsList();
             Toast.makeText(MainActivity.this, "Successful", Toast.LENGTH_SHORT).show();
 
         }catch (Exception e) {
@@ -417,6 +417,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.O
     @Override
     public void onDownPullRefresh() {
         Toast.makeText(this,"下拉",Toast.LENGTH_SHORT).show();
+
 //        //因为本例中没有从网络获取数据，因此这里使用Handler演示4秒延迟来从服务器获取数据的延迟现象，以便于大家
 //        // 能够看到listView正在刷新的状态。大家在现实使用时只需要使用run（）{}方法中的代码就行了。
 //        Handler handler = new Handler();
@@ -424,13 +425,13 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.O
 //            @Override
 //            public void run() {
 //                //获取最新的list数据
-//                setRefreshData();
+//                getLoadMoreData();
 //                //通知界面显示，
 //                adapter.notifyDataSetChanged();
 //                // 通知listview刷新数据完毕
-//                listView.onRefreshComplete();
+//                newsListView.onRefreshComplete();
 //            }
-//        }, 4000);
+//        }, 400);
     }
 
     /**
@@ -439,25 +440,35 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.O
     @Override
     public void onLoadingMore() {
         Toast.makeText(this,"上拉",Toast.LENGTH_SHORT).show();
-//        //因为本例中没有从网络获取数据，因此这里使用Handler演示4秒延迟来从服务器获取数据的延迟现象，以便于大家
-//        // 能够看到listView正在刷新的状态。大家在现实使用时只需要使用run（）{}方法中的代码就行了。
-//        Handler handler = new Handler();
-//        handler.postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                //获取更多的数据
-//                getLoadMoreData();
-//                //更新listview显示
-//                showListView(items);
-//                //通知listview加载完毕
-//                listView.loadMoreComplete();
-//            }
-//        }, 4000);
+        updateNewsList(1);
+        //因为本例中没有从网络获取数据，因此这里使用Handler演示4秒延迟来从服务器获取数据的延迟现象，以便于大家
+        // 能够看到listView正在刷新的状态。大家在现实使用时只需要使用run（）{}方法中的代码就行了。
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                //获取更多的数据
+                getLoadMoreData();
+                //更新listview显示
+                showListView(newsList);
+                //通知listview加载完毕
+                newsListView.loadMoreComplete();
+            }
+        }, 400);
     }
 
     private void getLoadMoreData() {
         //这里只是模拟3个列表项数据，在现实开发中，listview中的数据都是从服务器获取的。
-        Toast.makeText(this,"Loading",Toast.LENGTH_SHORT).show();
+        try {
+            newsSystem.getLatestNews();
+        }catch (Exception e){
+
+        }
+        ArrayList<News> news = newsSystem.getLatestNewsList();
+        for(int i = 0; i < 1; i++){
+            newsList.add(news.get(20+i));
+        }
+
     }
 
     private void showListView(List<News> listViewItems) {
