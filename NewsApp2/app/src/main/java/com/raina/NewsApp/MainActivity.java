@@ -136,7 +136,6 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.O
                 }
                 intent.putExtra("Title", title);
                 intent.putExtra("Body", body);
-                intent.putExtra("keywords", ((News)parent.getItemAtPosition(pos)).getKeyWords());
                 currentNews = (News)parent.getItemAtPosition(pos);
                 MainActivity.this.startActivity(intent);
             }
@@ -156,20 +155,6 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.O
     private void updateNewsList() {
         //adapter = new NewsAdapter(MainActivity.this, R.layout.news_item_layout, newsList);
         adapter = new NewsAdapter(MainActivity.this, newsList);
-        newsListView.setAdapter(adapter);
-    }
-
-    private void showNewsList(int type) {
-        type--;
-        News[] categoryNewsList = new News[0];
-        try {
-            if(newsSystem.getCategoryNewsList(type).length == 0) newsSystem.getCategoryNews(type);
-            categoryNewsList = newsSystem.getCategoryNewsList(type);
-        } catch(Exception e) {
-            Toast.makeText(MainActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
-        }
-        prevNewsList = (News[]) categoryNewsList.clone();
-        adapter = new NewsAdapter(MainActivity.this, R.layout.news_item_layout, categoryNewsList);
         newsListView.setAdapter(adapter);
     }
 
@@ -410,7 +395,8 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.O
                         }
                         break;
                     default:
-                         showNewsList(item.getItemId());
+                        //
+                         updateNewsList(item.getItemId());
                         break;
                 }
                 drawerLayout.closeDrawers();
