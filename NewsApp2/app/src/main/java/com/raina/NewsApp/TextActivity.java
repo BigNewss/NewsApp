@@ -201,13 +201,17 @@ public class TextActivity extends AppCompatActivity {
         ((TextView) findViewById(R.id.textview_title)).setText(title);
         ((TextView) findViewById(R.id.textview_subtitle)).setText(MainActivity.currentNews.getNewsAuthor());
         String[] imageList = MainActivity.currentNews.getNewsPictures();
+        ImageView imageView = (ImageView) findViewById(R.id.imageview_body);
         if(imageList.length > 0) {
-            ImageView imageView = (ImageView) findViewById(R.id.imageview_body);
             try {
-                Toast.makeText(TextActivity.this, imageList[0], Toast.LENGTH_SHORT).show();
                 imageView.setImageBitmap(returnBitMap(imageList[0]));
             } catch(Exception e) {
-                Toast.makeText(TextActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            try {
+                imageView.setImageBitmap(returnBitMap(GetPictures.getURL(title)));
+            } catch(Exception e) {
+
             }
         }
 
