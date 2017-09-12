@@ -56,6 +56,7 @@ public class EditCategoryActivity extends Activity implements View.OnClickListen
         LinearLayout layout = (LinearLayout) findViewById(R.id.linearLayout_edit_category);
         layout.setOrientation(LinearLayout.VERTICAL);
         String[] categories = getResources().getStringArray(R.array.categories);
+        
         for (int i = 0; i < 12; i++){
             Button button = new Button(this);
             button.setId(i);

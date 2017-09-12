@@ -26,6 +26,7 @@ import android.widget.Button;
 import android.support.v4.view.MenuItemCompat;
 import java.lang.reflect.Method;
 import android.util.Log;
+import android.support.design.internal.NavigationMenuView;
 import android.graphics.Typeface;
 import android.view.SubMenu;
 import java.io.*;
@@ -34,6 +35,8 @@ public class MainActivity extends AppCompatActivity {
 
     public static News currentNews;
     public static NewsSystem newsSystem;
+    public static boolean picMode = true;
+    public static boolean nightMode;
 
     private News[] newsList;
     private NewsAdapter adapter;
@@ -42,21 +45,23 @@ public class MainActivity extends AppCompatActivity {
     private ListView newsListView;
     private SearchView searchView;
     private News[] prevNewsList;
-    boolean isNight;
     public static Context context;
+    private static String THEME_KEY = "theme_mode";
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         translucentStatusBar();
         setContentView(R.layout.activity_main);
-        isNight = false;
+
         StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
                 .detectDiskReads().detectDiskWrites().detectNetwork()
                 .penaltyLog().build());
         StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
                 .detectLeakedSqlLiteObjects().detectLeakedClosableObjects()
                 .penaltyLog().penaltyDeath().build());
+        nightMode = ConfigUtil.getBoolean(THEME_KEY, false);
+
         initDrawer();
         initNewsList();
         initMark();
@@ -84,6 +89,8 @@ public class MainActivity extends AppCompatActivity {
         drawerLayout.setDrawerListener(drawerToggle);
         drawerToggle.syncState();
         initNavigationView();
+        Typeface tf1 = Typeface.createFromAsset(getAssets(), "fonts/Bodoni 72.ttc");
+        ((TextView) findViewById(R.id.toolbar_title)).setTypeface(tf1);
     }
 
     private void initToolbar() {
@@ -310,6 +317,14 @@ public class MainActivity extends AppCompatActivity {
     }
     private void initNavigationView(){
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view_drawer);
+
+        if (navigationView != null){
+            NavigationMenuView navigationMenuView =  (NavigationMenuView) navigationView.getChildAt(0);
+            if (navigationMenuView != null){
+                navigationMenuView.setVerticalScrollBarEnabled(false);
+            }
+        }
+
         Menu navMenu = navigationView.getMenu();
         SubMenu menu = navMenu.findItem(R.id.nav_category).getSubMenu();
         menu.clear();
@@ -319,34 +334,59 @@ public class MainActivity extends AppCompatActivity {
                 menu.add(Menu.NONE,Menu.FIRST+i,i,categories[i]);
             }
         }
-
-        menu.add(Menu.NONE, Menu.FIRST + 12, 12, "Edit");
+        /*
+        if(nightMode) {
+            navigationView.getMenu().getItem(R.id.nav_color_mode).setIcon(R.drawable.icon_day);
+            navigationView.getMenu().getItem(R.id.nav_color_mode).setTitle("Day");
+        } else {
+            navigationView.getMenu().getItem(R.id.nav_color_mode).setIcon(R.drawable.icon_night);
+            navigationView.getMenu().getItem(R.id.nav_color_mode).setTitle("Night");
+        }
+        */
+        //menu.add(Menu.NONE, Menu.FIRST + 12, 12, "Edit");
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem item) {
-                //Toast.makeText(MainActivity.this,"你点击我了",Toast.LENGTH_SHORT).show();
                 switch (item.getItemId()) {
                     case R.id.nav_favourite:
                         updateFavouriteNewsList();
                         break;
-                    case R.id.nav_all:
+                    case R.id.nav_home:
                         updateNewsList();
                         break;
-                    case R.id.nav_day_mode:
-                        AppContext.me().setTheme(MainActivity.this, false);
-                        Toast.makeText(MainActivity.this, (isNight)? "Night" : "Day", Toast.LENGTH_SHORT).show();
-                        isNight = !isNight;
-                        break;
-                    case R.id.nav_night_mode:
-                        AppContext.me().setTheme(MainActivity.this, true);
-                        isNight = !isNight;
-                        break;
-                    case Menu.FIRST + 12:
+                    case R.id.nav_edit:
                         Intent intent = new Intent(MainActivity.this, EditCategoryActivity.class);
                         startActivity(intent);
                         break;
+                    case R.id.nav_color_mode:
+                        if(!nightMode) {
+                            AppContext.me().setTheme(MainActivity.this, true);
+                            Toast.makeText(MainActivity.this, "Day", Toast.LENGTH_SHORT).show();
+                            nightMode = true;
+                            item.setIcon(R.drawable.icon_day);
+                            item.setTitle("Day");
+                        } else {
+                            AppContext.me().setTheme(MainActivity.this, false);
+                            Toast.makeText(MainActivity.this, "Night", Toast.LENGTH_SHORT).show();
+                            nightMode = false;
+                            item.setIcon(R.drawable.icon_night);
+                            item.setTitle("Night");
+                        }
+                        break;
+                    case R.id.nav_text_mode:
+                        if(picMode) {
+                            picMode = false;
+                            item.setIcon(R.drawable.icon_text);
+                            item.setTitle("Text");
+                        } else {
+                            picMode = true;
+                            item.setIcon(R.drawable.icon_picture);
+                            item.setTitle("Picture");
+                        }
+                        break;
                     default:
-                        updateNewsList(item.getItemId());
+                        //
+                         updateNewsList(item.getItemId());
                         break;
                 }
                 drawerLayout.closeDrawers();

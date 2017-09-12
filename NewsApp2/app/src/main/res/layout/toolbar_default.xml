@@ -17,6 +17,6 @@
         android:layout_height="match_parent"
         android:layout_gravity="center_horizontal"
         android:singleLine="true"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/colorWhite"
         android:textSize="28dp" />
 </android.support.v7.widget.Toolbar>
