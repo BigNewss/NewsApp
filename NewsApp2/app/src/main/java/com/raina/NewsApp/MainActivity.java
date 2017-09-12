@@ -30,6 +30,7 @@ import android.support.design.internal.NavigationMenuView;
 import android.graphics.Typeface;
 import android.view.SubMenu;
 import java.io.*;
+import java.util.*;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -38,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
     public static boolean picMode = true;
     public static boolean nightMode;
 
-    private News[] newsList;
+    private List<News> newsList;
     private NewsAdapter adapter;
     private DrawerLayout drawerLayout;
     private Toolbar toolbar;
@@ -112,8 +113,9 @@ public class MainActivity extends AppCompatActivity {
         //newsListView.addHeaderView(headerImage);
 
         initNews();
-        prevNewsList = (News[]) newsList.clone();
-        adapter = new NewsAdapter(MainActivity.this, R.layout.news_item_layout, newsList);
+        prevNewsList = (News[]) newsList.toArray().clone();
+        //adapter = new NewsAdapter(MainActivity.this, R.layout.news_item_layout, newsList);
+        adapter = new NewsAdapter(this, newsList);
         newsListView.setAdapter(adapter);
         Toast.makeText(MainActivity.this, "~", Toast.LENGTH_SHORT).show();
 
@@ -147,7 +149,8 @@ public class MainActivity extends AppCompatActivity {
 
     /* show latest news */
     private void updateNewsList() {
-        adapter = new NewsAdapter(MainActivity.this, R.layout.news_item_layout, newsList);
+        //adapter = new NewsAdapter(MainActivity.this, R.layout.news_item_layout, newsList);
+        adapter = new NewsAdapter(MainActivity.this, newsList);
         newsListView.setAdapter(adapter);
     }
 
@@ -162,7 +165,8 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(MainActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
         }
         prevNewsList = (News[]) categoryNewsList.clone();
-        adapter = new NewsAdapter(MainActivity.this, R.layout.news_item_layout, categoryNewsList);
+        //adapter = new NewsAdapter(MainActivity.this, R.layout.news_item_layout, Arrays.asList(categoryNewsList));
+        adapter = new NewsAdapter(MainActivity.this, Arrays.asList(categoryNewsList));
         newsListView.setAdapter(adapter);
     }
 
@@ -176,7 +180,8 @@ public class MainActivity extends AppCompatActivity {
         } catch(Exception e) {
             Toast.makeText(MainActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
         }
-        adapter = new NewsAdapter(MainActivity.this, R.layout.news_item_layout, searchNewsList);
+        //adapter = new NewsAdapter(MainActivity.this, R.layout.news_item_layout, Arrays.asList(searchNewsList));
+        adapter = new NewsAdapter(MainActivity.this, Arrays.asList(searchNewsList));
         newsListView.setAdapter(adapter);
     }
 
@@ -189,12 +194,14 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(MainActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
         }
         prevNewsList = (News[]) favouriteNewsList.clone();
-        adapter = new NewsAdapter(MainActivity.this, R.layout.news_item_layout, favouriteNewsList);
+        //adapter = new NewsAdapter(MainActivity.this, R.layout.news_item_layout, Arrays.asList(favouriteNewsList));
+        adapter = new NewsAdapter(MainActivity.this, Arrays.asList(favouriteNewsList));
         newsListView.setAdapter(adapter);
     }
 
     private void restoreNewsList() {
-        adapter = new NewsAdapter(MainActivity.this, R.layout.news_item_layout, prevNewsList);
+        //adapter = new NewsAdapter(MainActivity.this, R.layout.news_item_layout, Arrays.asList(prevNewsList));
+        adapter = new NewsAdapter(MainActivity.this, Arrays.asList(prevNewsList));
         newsListView.setAdapter(adapter);
     }
 
@@ -268,11 +275,10 @@ public class MainActivity extends AppCompatActivity {
         try {
             newsSystem = new NewsSystem();
             newsSystem.getLatestNews();
-            newsList = newsSystem.getLatestNewsList();
+            newsList = Arrays.asList(newsSystem.getLatestNewsList());
             Toast.makeText(MainActivity.this, "Successful", Toast.LENGTH_SHORT).show();
 
         }catch (Exception e) {
-            newsList = new News[0];
             Toast.makeText(MainActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
         }
 
