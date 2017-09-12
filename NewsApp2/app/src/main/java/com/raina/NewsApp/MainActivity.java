@@ -83,7 +83,6 @@ public class MainActivity extends AppCompatActivity {
         );
         drawerLayout.setDrawerListener(drawerToggle);
         drawerToggle.syncState();
-
         initNavigationView();
     }
 
@@ -93,6 +92,9 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
+        ((TextView) findViewById(R.id.toolbar_title)).setText("Nouvelle");
+        Typeface tf1 = Typeface.createFromAsset(getAssets(), "fonts/Bodoni 72.ttc");
+        ((TextView) findViewById(R.id.toolbar_title)).setTypeface(tf1);
 
     }
 
@@ -126,13 +128,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Typeface tf1 = Typeface.createFromAsset(getAssets(), "fonts/PingFangLight.ttf");
+        /*
+        Typeface tf1 = Typeface.createFromAsset(getAssets(), "fonts/Avenir Next Condensed.ttc");
         try {
             ((TextView) findViewById(R.id.news_title)).setTypeface(tf1);
         }catch(Exception e) {
             Toast.makeText(MainActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
         }
-
+        */
     }
 
     /* show latest news */
@@ -194,7 +197,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
@@ -203,6 +205,7 @@ public class MainActivity extends AppCompatActivity {
         MenuItem searchItem = menu.findItem(R.id.search_view);
         //searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
         searchView = new SearchView(this);
+        //searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
         //MenuItem item = menu.getItem(0);
         //searchView = new SearchView(this);
         //设置展开后图标的样式,false时ICON在搜索框外,true为在搜索框内，无法修改
@@ -214,6 +217,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+
             @Override
             public boolean onQueryTextSubmit(String query) {
                 if(searchView != null) {
@@ -232,22 +236,11 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                //updateNewsList(newText);
+                if(newText.equals(""))
+                    restoreNewsList();
                 return false;
             }
         });
-
-        /*
-        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
-            @Override
-            public boolean onClose() {
-                System.out.print("close");
-                restoreNewsList();
-                // This is where you can be notified when the `SearchView` is closed
-                // and change your views you see fit.
-                return true;
-            }
-        });*/
 
         /*
         MenuItemCompat.setOnActionExpandListener(searchItem, new MenuItemCompat.OnActionExpandListener() {

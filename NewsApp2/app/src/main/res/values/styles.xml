@@ -18,7 +18,9 @@
         <item name="color">@color/colorWhite</item>
     </style>
 
-
+    <style name="ToolbarTheme" parent="@style/ThemeOverlay.AppCompat.Light">
+        <item name="colorControlNormal">@color/colorPrimary</item>
+    </style>
 
     <style name="ToolbarPopupTheme" parent="@style/ThemeOverlay.AppCompat.Dark">
         <item name="android:colorBackground">@color/colorAccent</item>
