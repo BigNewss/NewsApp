@@ -156,6 +156,7 @@ public class MainActivity extends AppCompatActivity {
         type--;
         News[] categoryNewsList = new News[0];
         try {
+            if(newsSystem.getCategoryNewsList(type).length == 0) newsSystem.getCategoryNews(type);
             categoryNewsList = newsSystem.getCategoryNewsList(type);
         } catch(Exception e) {
             Toast.makeText(MainActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
