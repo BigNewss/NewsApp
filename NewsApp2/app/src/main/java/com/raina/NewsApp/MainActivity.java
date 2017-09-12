@@ -1,6 +1,7 @@
 package com.raina.NewsApp;
 
 import android.content.Context;
+import android.os.Handler;
 import android.support.design.widget.NavigationView;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -32,7 +33,7 @@ import android.view.SubMenu;
 import java.io.*;
 import java.util.*;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements RefreshListView.OnRefreshListener{
 
     public static News currentNews;
     public static NewsSystem newsSystem;
@@ -43,7 +44,8 @@ public class MainActivity extends AppCompatActivity {
     private NewsAdapter adapter;
     private DrawerLayout drawerLayout;
     private Toolbar toolbar;
-    private ListView newsListView;
+    //private ListView newsListView;
+    private RefreshListView newsListView;
     private SearchView searchView;
     private News[] prevNewsList;
     public static Context context;
@@ -108,7 +110,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void initNewsList(){
         Toast.makeText(MainActivity.this, "news list", Toast.LENGTH_SHORT).show();
-        newsListView = (ListView) findViewById(R.id.listview_news);
+        //newsListView = (ListView) findViewById(R.id.listview_news);
+        newsListView = (RefreshListView) findViewById(R.id.listview_news);
+        newsListView.setOnRefreshListener(this);
         //ImageView headerImage = (ImageView) LayoutInflater.from(this).inflate(R.layout.list_view_header_layout, newsListView, false);
         //newsListView.addHeaderView(headerImage);
 
@@ -404,5 +408,66 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         AppContext.me().refreshResources(this);
+    }
+//
+
+    /**
+     * 下拉刷新的接口方法
+     */
+    @Override
+    public void onDownPullRefresh() {
+        Toast.makeText(this,"下拉",Toast.LENGTH_SHORT).show();
+//        //因为本例中没有从网络获取数据，因此这里使用Handler演示4秒延迟来从服务器获取数据的延迟现象，以便于大家
+//        // 能够看到listView正在刷新的状态。大家在现实使用时只需要使用run（）{}方法中的代码就行了。
+//        Handler handler = new Handler();
+//        handler.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                //获取最新的list数据
+//                setRefreshData();
+//                //通知界面显示，
+//                adapter.notifyDataSetChanged();
+//                // 通知listview刷新数据完毕
+//                listView.onRefreshComplete();
+//            }
+//        }, 4000);
+    }
+
+    /**
+     * 上拉加载更多的接口方法
+     */
+    @Override
+    public void onLoadingMore() {
+        Toast.makeText(this,"上拉",Toast.LENGTH_SHORT).show();
+//        //因为本例中没有从网络获取数据，因此这里使用Handler演示4秒延迟来从服务器获取数据的延迟现象，以便于大家
+//        // 能够看到listView正在刷新的状态。大家在现实使用时只需要使用run（）{}方法中的代码就行了。
+//        Handler handler = new Handler();
+//        handler.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                //获取更多的数据
+//                getLoadMoreData();
+//                //更新listview显示
+//                showListView(items);
+//                //通知listview加载完毕
+//                listView.loadMoreComplete();
+//            }
+//        }, 4000);
+    }
+
+    private void getLoadMoreData() {
+        //这里只是模拟3个列表项数据，在现实开发中，listview中的数据都是从服务器获取的。
+        Toast.makeText(this,"Loading",Toast.LENGTH_SHORT).show();
+    }
+
+    private void showListView(List<News> listViewItems) {
+        if (adapter == null) {
+            //为listview配置adapter
+            adapter = new NewsAdapter(this, newsList);
+            newsListView.setAdapter(adapter);
+        } else {
+            //当有数据变化时，自动刷新界面
+            adapter.onDateChange(newsList);
+        }
     }
 }

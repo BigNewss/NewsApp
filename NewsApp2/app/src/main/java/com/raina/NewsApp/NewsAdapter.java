@@ -61,16 +61,14 @@ public class NewsAdapter extends BaseAdapter{
         return convertView;
     }
 
-    public void onDateChange(ArrayList<News> items) {
+    public void onDateChange(List<News> items) {
         this.items = items;
         this.notifyDataSetChanged();
     }
 
     public class ViewHolder {
-        //用户头像
-        //用户名字
+
         TextView newsIntro;
-        //用户的评论
         TextView newsTitle;
     }
 
