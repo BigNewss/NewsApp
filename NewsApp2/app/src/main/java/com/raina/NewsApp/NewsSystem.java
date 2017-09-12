@@ -67,8 +67,11 @@ class NewsSystem {
 
     }
 
-    News[] getMarkNewsList() {
-        return markNewsList;
+    ArrayList<News> getMarkNewsList() {
+        res = new ArrayList<News>();
+        for (int i = 0; i < markNewsList.length; i++)
+            res.add(markNewsList[i]);
+        return res;
     }
 
     NewsSystem() throws Exception {
