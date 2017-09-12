@@ -7,7 +7,9 @@
             android:title="@string/nav_favourite"
             />
     </group>
-
+    <item
+        android:id="@+id/nav_all"
+        android:title="@string/nav_all"/>
     <item
         android:id="@+id/nav_category"
         android:title="Category">
@@ -15,4 +17,12 @@
             <item android:id="@+id/item1" android:title="Placeholder"></item>
         </menu>
     </item>
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_day_mode"
+            android:title="@string/nav_day_mode"/>
+        <item
+            android:id="@+id/nav_night_mode"
+            android:title="@string/nav_night_mode"/>
+    </group>
 </menu>
