@@ -26,7 +26,7 @@
                        android:layout_height="wrap_content"
                        android:scaleType="fitCenter"
                        android:adjustViewBounds="true"
-                       android:src="@mipmap/list_view_header"
+                       android:src="@mipmap/loading"
                        android:padding="30dp">
             </ImageView>
 

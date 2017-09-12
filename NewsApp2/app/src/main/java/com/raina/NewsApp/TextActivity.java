@@ -201,20 +201,76 @@ public class TextActivity extends AppCompatActivity {
         ((TextView) findViewById(R.id.textview_title)).setText(title);
         ((TextView) findViewById(R.id.textview_subtitle)).setText(MainActivity.currentNews.getNewsAuthor());
         String[] imageList = MainActivity.currentNews.getNewsPictures();
-        ImageView imageView = (ImageView) findViewById(R.id.imageview_body);
+        final ImageView imageView = (ImageView) findViewById(R.id.imageview_body);
+
         if(imageList.length > 0) {
             try {
-                imageView.setImageBitmap(returnBitMap(imageList[0]));
+                //imageView.setImageBitmap(returnBitMap(imageList[0]));
+                final String get_path = imageList[0];
+                new Thread(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        //从网络上获取图片
+                        final Bitmap bitmap=returnBitMap(get_path);
+
+                        try {
+                            Thread.sleep(500);//线程休眠两秒钟
+                        } catch (InterruptedException e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                        }
+                        //alpha.setRepeatCount(0);//循环显示
+                        //发送一个Runnable对象
+                        imageView.post(new Runnable(){
+
+
+                            @Override
+                            public void run() {
+                                imageView.setImageBitmap(bitmap);//在ImageView中显示从网络上获取到的图片
+                            }
+
+                        });
+
+                    }
+                }).start();
             } catch(Exception e) {
             }
         } else {
             try {
-                imageView.setImageBitmap(returnBitMap(GetPictures.getURL(title)));
+                //imageView.setImageBitmap(returnBitMap(GetPictures.getURL(title)));
+                final String get_path = GetPictures.getURL(title);
+                new Thread(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        //从网络上获取图片
+                        final Bitmap bitmap=returnBitMap(get_path);
+
+                        try {
+                            Thread.sleep(500);//线程休眠两秒钟
+                        } catch (InterruptedException e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                        }
+                        //alpha.setRepeatCount(0);//循环显示
+                        //发送一个Runnable对象
+                        imageView.post(new Runnable(){
+
+
+                            @Override
+                            public void run() {
+                                imageView.setImageBitmap(bitmap);//在ImageView中显示从网络上获取到的图片
+                            }
+
+                        });
+
+                    }
+                }).start();
             } catch(Exception e) {
 
             }
         }
-
 
         //toolbar.setTitle(title);
     }
@@ -239,25 +295,23 @@ public class TextActivity extends AppCompatActivity {
         return true;
     }
 
-    public Bitmap returnBitMap(String url){
-        URL myFileUrl = null;
-        Bitmap bitmap = null;
+    public Bitmap returnBitMap(String path){
+        Bitmap bm=null;
+        URL url;
         try {
-            myFileUrl = new URL(url);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
+            url = new URL(path);//创建URL对象
+            URLConnection conn=url.openConnection();//获取URL对象对应的连接
+            conn.connect();//打开连接
+            InputStream is=conn.getInputStream();//获取输入流对象
+            bm=BitmapFactory.decodeStream(is);//根据输入流对象创建Bitmap对象
+        } catch (MalformedURLException e1) {
+            e1.printStackTrace();//输出异常信息
+        }catch (IOException e) {
+            e.printStackTrace();//输出异常信息
         }
-        try {
-            HttpURLConnection conn = (HttpURLConnection) myFileUrl.openConnection();
-            conn.setDoInput(true);
-            conn.connect();
-            InputStream is = conn.getInputStream();
-            bitmap = BitmapFactory.decodeStream(is);
-            is.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return bitmap;
+
+
+        return bm;
     }
 
 }
