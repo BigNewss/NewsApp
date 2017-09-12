@@ -8,8 +8,7 @@
     android:background="@color/colorPrimaryDark"
     android:minHeight="50dp"
     app:title=" "
-    app:theme="@style/ToolbarTheme"
-    android:theme="@style/ToolbarTheme"
+    app:theme="@style/ThemeOverlay.AppCompat.Dark"
     android:popupTheme="@style/ToolbarPopupTheme">
     <TextView
         android:id="@+id/toolbar_title"
@@ -18,5 +17,5 @@
         android:layout_gravity="center_horizontal"
         android:singleLine="true"
         android:textColor="@color/colorWhite"
-        android:textSize="28dp" />
+        android:textSize="35dp" />
 </android.support.v7.widget.Toolbar>
