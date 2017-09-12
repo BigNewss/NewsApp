@@ -5,13 +5,36 @@ import java.io.*;
 import java.util.*;
 import java.util.regex.*;
 
+import org.json.HTTP;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONArray;
 import android.app.Activity;
 import android.content.Context;
 
-class News {
+import java.net.HttpURLConnection;
+import java.net.URL;
+
+class URLTest {
+
+    static boolean exists(String URLName) {
+        try {
+            HttpURLConnection.setFollowRedirects(false);
+            HttpURLConnection con = (HttpURLConnection) new URL(URLName)
+                    .openConnection();
+            con.setRequestMethod("HEAD");
+            int code = con.getResponseCode();
+            if (code == HttpURLConnection.HTTP_OK) return true;
+            if (code == 302 && !con.getHeaderField("Location").equals("https://baike.baidu.com/error.html")) return true;
+            else return false;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+}
+
+class News implements Serializable{
     String langType; // 新闻语言
     String newsClassTag; // 种类标记
     String newsAuthor; // 新闻作者
@@ -23,6 +46,11 @@ class News {
     String[] newsVideo; // 相关视频URL
     String newsIntro; // 新闻简介
     String newsDetail;
+
+    boolean hasRead() {
+        if (newsDetail.equals("")) return false;
+        else return true;
+    }
 
     News() {
         langType = "";
@@ -65,13 +93,18 @@ class News {
         newsId = Obj.get("news_ID").toString();
         String tmp  = Obj.get("news_Pictures").toString();
         if (tmp.equals("")) newsPictures = new String[0];
-        else newsPictures = tmp.split(" ");
+        else {
+            if (tmp.indexOf(";") == -1) newsPictures = tmp.split(" ");
+            else newsPictures = tmp.split(";");
+        }
         newsTime = Obj.get("news_Time").toString();
         newsTitle = Obj.get("news_Title").toString();
         newsURL = Obj.get("news_URL").toString();
         tmp = Obj.get("news_Video").toString();
         if (!tmp.equals("No Match")) newsVideo = tmp.split(" ");
         newsIntro = Obj.get("news_Intro").toString();
+        newsIntro = newsIntro.replaceAll(" ", "");
+        newsIntro = newsIntro.replaceAll("　", "");
     }
 
     void show() {
@@ -93,11 +126,31 @@ class News {
         String res = "";
         res = json.get("news_Content").toString();
         if (res.indexOf("\n") != -1) {
-            res = res.replace(" ", "");
-            res = res.replace("　", "");
+            res = res.replaceAll(" ", "");
+            res = res.replaceAll("\n", "<br /><br />　　");
+            if (res.charAt(0) != '　') res = "<br /><br />　　" + res;
+            //res = res.replaceAll("　", "");
         } else {
-            res = res.replace(" ", "");
-            res = res.replace("　　", "\n\n　　");
+            res = res.replaceAll(" ", "");
+            if (res.charAt(0) != '　') res = "　　" + res;
+            res = res.replaceAll("　　　　　　　　", "　　");
+            res = res.replaceAll("　　　　　　", "　　");
+            res = res.replaceAll("　　　　", "　　");
+            res = res.replaceAll("　　", "<br /><br />　　");
+        }
+        String personsString = json.get("persons").toString();
+        JSONArray personsArray = new JSONArray(personsString);
+        for (int i = 0; i < personsArray.length(); i++) {
+            JSONObject person = personsArray.getJSONObject(i);
+            String name = person.get("word").toString();
+            res = res.replaceAll(name, "<a href='https://baike.baidu.com/item/"+name+"'>"+name+"</a>");
+        }
+        String locationsString = json.get("locations").toString();
+        JSONArray locationsArray = new JSONArray(locationsString);
+        for (int i = 0; i < locationsArray.length(); i++) {
+            JSONObject location = locationsArray.getJSONObject(i);
+            String name = location.get("word").toString();
+            res = res.replaceAll(name, "<a href='https://baike.baidu.com/item/"+name+"'>"+name+"</a>");
         }
         newsDetail = res;
         return res;

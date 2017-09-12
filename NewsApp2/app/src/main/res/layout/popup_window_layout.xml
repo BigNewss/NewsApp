@@ -6,45 +6,39 @@
                 android:background="@color/colorBackground"
                 android:orientation="vertical">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Share"
-        android:textSize="40dp"
-        android:layout_centerInParent="true"
-        android:gravity="center"/>
+
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:paddingBottom="10dp">
+        android:padding="30dp">
         <ImageButton
             android:id="@+id/button_wechat"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:scaleType="fitXY"
             android:src="@drawable/icon_wechat"
             android:layout_toLeftOf="@+id/button_weibo"
-            android:layout_marginRight="20dp"
+            android:layout_marginRight="40dp"
             android:layout_alignBottom="@+id/button_weibo"
             android:background="@color/colorBackground"/>
         <ImageButton
             android:id="@+id/button_weibo"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:scaleType="fitXY"
             android:src="@drawable/icon_weibo"
             android:layout_centerInParent="true"
             android:background="@color/colorBackground"/>
         <ImageButton
             android:id="@+id/button_qq"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:scaleType="fitXY"
             android:src="@drawable/icon_qq"
             android:layout_toRightOf="@id/button_weibo"
-            android:layout_marginLeft="20dp"
+            android:layout_marginLeft="40dp"
             android:layout_alignBottom="@+id/button_weibo"
             android:background="@color/colorBackground"/>
     </RelativeLayout>

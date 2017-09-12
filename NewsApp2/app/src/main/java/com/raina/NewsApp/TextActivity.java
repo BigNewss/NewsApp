@@ -2,10 +2,12 @@ package com.raina.NewsApp;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.ActionMenuView;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
@@ -19,6 +21,11 @@ import android.view.Menu;
 import android.widget.Toast;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+
+import java.net.*;
+import java.io.*;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -58,10 +65,18 @@ public class TextActivity extends AppCompatActivity {
         mySynthesizer = SpeechSynthesizer.createSynthesizer(this, myInitListener);
         //findViewById(R.id.textview_toolbar).setVisibility(0);
 
-
+       /*
+        StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
+                .detectDiskReads().detectDiskWrites().detectNetwork()
+                .penaltyLog().build());
+        StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
+                .detectLeakedSqlLiteObjects().detectLeakedClosableObjects()
+                .penaltyLog().penaltyDeath().build());
+        */
         initToolbar();
         initContent();
         initPopupWindow();
+
     }
 
     @Override
@@ -80,13 +95,14 @@ public class TextActivity extends AppCompatActivity {
     private void initToolbar() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        /*
-        if(MainActivity.currentNews.checkMark()) {
-            ((MenuItem)findViewById(R.id.menu_favorite)).setIcon(R.drawable.icon_hearted);
-        } else {
-            ((MenuItem)findViewById(R.id.menu_favorite)).setIcon(R.drawable.icon_heart);
-        }*/
-
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
@@ -174,12 +190,23 @@ public class TextActivity extends AppCompatActivity {
     private void initContent() {
         Intent intent = getIntent();
         String title = intent.getStringExtra("Title");
-        intro = intent.getStringExtra("Body");
-        TextView bodyTextView = (TextView) findViewById(R.id.textview_body);
-        ImageView imageView = (ImageView) findViewById(R.id.imageview_body);
-        bodyTextView.setText(intro);
-        //imageView.setImageResource(R.drawable.icon_category);
-        toolbar.setTitle(title);
+        String body = intent.getStringExtra("Body");
+        ((TextView) findViewById(R.id.textview_body)).setText(body);
+        ((TextView) findViewById(R.id.textview_title)).setText(title);
+        ((TextView) findViewById(R.id.textview_subtitle)).setText(MainActivity.currentNews.getNewsAuthor());
+        String[] imageList = MainActivity.currentNews.getNewsPictures();
+        if(imageList.length > 0) {
+            ImageView imageView = (ImageView) findViewById(R.id.imageview_body);
+            try {
+                Toast.makeText(TextActivity.this, imageList[0], Toast.LENGTH_SHORT).show();
+                imageView.setImageBitmap(returnBitMap(imageList[0]));
+            } catch(Exception e) {
+                Toast.makeText(TextActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
+            }
+        }
+
+
+        //toolbar.setTitle(title);
     }
 
     private void initPopupWindow() {
@@ -200,6 +227,27 @@ public class TextActivity extends AppCompatActivity {
             item.setIcon(R.drawable.icon_heart);
         }
         return true;
+    }
+
+    public Bitmap returnBitMap(String url){
+        URL myFileUrl = null;
+        Bitmap bitmap = null;
+        try {
+            myFileUrl = new URL(url);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        try {
+            HttpURLConnection conn = (HttpURLConnection) myFileUrl.openConnection();
+            conn.setDoInput(true);
+            conn.connect();
+            InputStream is = conn.getInputStream();
+            bitmap = BitmapFactory.decodeStream(is);
+            is.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return bitmap;
     }
 
 }

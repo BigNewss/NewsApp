@@ -79,32 +79,6 @@ public class MainActivity extends AppCompatActivity {
         drawerLayout.setDrawerListener(drawerToggle);
         drawerToggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view_drawer);
-
-//        navigationView.setNavigationItemSelectedListener(
-//                new NavigationView.OnNavigationItemSelectedListener() {
-//                    @Override
-//                    public boolean onNavigationItemSelected(MenuItem menuItem) {
-//                        menuItem.setCheckable(true);
-//                        switch (menuItem.getItemId()) {
-//                            case R.id.nav_favourite:
-//                                updateFavouriteNewsList();
-//                                break;
-//                            case R.id.type_0:
-//                                updateNewsList(0);
-//                                break;
-//                            case R.id.type_1:
-//                                restoreNewsList();
-//                                break;
-//                            case R.id.type_2:
-//                                updateNewsList();
-//                                break;
-//                        }
-//                        drawerLayout.closeDrawers();
-//                        return true;
-//                    }
-//                }
-//        );
         initNavigationView();
     }
     private SearchView.SearchAutoComplete mSearchAutoComplete;
@@ -237,7 +211,7 @@ public class MainActivity extends AppCompatActivity {
         MenuItem searchItem = menu.findItem(R.id.search_view);
         //searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
         searchView = new SearchView(this);
-       //MenuItem item = menu.getItem(0);
+        //MenuItem item = menu.getItem(0);
         //searchView = new SearchView(this);
         //设置展开后图标的样式,false时ICON在搜索框外,true为在搜索框内，无法修改
         searchView.setIconifiedByDefault(false);
@@ -287,15 +261,11 @@ public class MainActivity extends AppCompatActivity {
         MenuItemCompat.setOnActionExpandListener(searchItem, new MenuItemCompat.OnActionExpandListener() {
             @Override
             public boolean onMenuItemActionExpand(MenuItem item) {
-
                 return true;
             }
-
             @Override
             public boolean onMenuItemActionCollapse(MenuItem item) {
-
                 //DO SOMETHING WHEN THE SEARCHVIEW IS CLOSING
-
                 return true;
             }
         });*/

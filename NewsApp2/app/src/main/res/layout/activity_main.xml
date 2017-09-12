@@ -17,7 +17,12 @@
         <include layout="@layout/toolbar_default" />
 
         <!--main conten-->
-        <include layout="@layout/content_main" />
+        <!--<include layout="@layout/content_main" />-->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <include layout="@layout/content_main"></include>
+        </RelativeLayout>
 
     </LinearLayout>
 
@@ -35,14 +40,6 @@
         app:itemIconTint="@color/colorWhite"
         app:theme="@style/MenuTextStyle"/>
 
-    <!--
-    <ListView
-        android:id="@+id/listview_drawer"
-        android:layout_width="280dp"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:background="@color/colorWhite"
-        android:choiceMode="singleChoice" />-->
 
 </android.support.v4.widget.DrawerLayout>
 

@@ -24,6 +24,11 @@
         <item name="android:actionOverflowMenuStyle">@style/OverflowMenuStyle</item>
     </style>
 
+    <style name="NavigationViewTheme" parent="@style/ThemeOverlay.AppCompat.Light">
+        <item name="android:textSize">15dp</item>
+        <item name="android:iconifiedByDefault">true</item>
+    </style>
+
     <style name="OverflowMenuStyle" parent="Widget.AppCompat.Light.PopupMenu.Overflow">
         <item name="overlapAnchor">false</item>
     </style>
