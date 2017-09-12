@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.O
     public static NewsSystem newsSystem;
     public static boolean picMode = true;
     public static boolean nightMode;
-    private String type = "-1";
+    private int news_type = -1;
     private ArrayList<News> newsList;
     private NewsAdapter adapter;
     private DrawerLayout drawerLayout;
@@ -154,6 +154,15 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.O
     /* show latest news */
     private void updateNewsList() {
         //adapter = new NewsAdapter(MainActivity.this, R.layout.news_item_layout, newsList);
+        newsList = new ArrayList<>();
+        try {
+            if (newsSystem.getLatestNewsList().size() == 0)
+                newsSystem.getLatestNews();
+            newsList = newsSystem.getLatestNewsList();
+        } catch(Exception e) {
+            Toast.makeText(MainActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
+        }
+        prevNewsList = (ArrayList<News>) newsList.clone();
         adapter = new NewsAdapter(MainActivity.this, newsList);
         newsListView.setAdapter(adapter);
     }
@@ -161,31 +170,40 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.O
     /* show news in a category */
     private void updateNewsList(int type) {
         type--;
-        ArrayList<News> categoryNewsList = new ArrayList<>();
+        newsList = new ArrayList<>();
         try {
-            newsSystem.getCategoryNews(type);
-            categoryNewsList = newsSystem.getCategoryNewsList(type);
+            if (newsSystem.getCategoryNewsList(type).size() == 0)
+                newsSystem.getCategoryNews(type);
+            newsList = newsSystem.getCategoryNewsList(type);
         } catch(Exception e) {
             Toast.makeText(MainActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
         }
-        prevNewsList = (ArrayList<News>) categoryNewsList.clone();
+        prevNewsList = (ArrayList<News>) newsList.clone();
         //adapter = new NewsAdapter(MainActivity.this, R.layout.news_item_layout, Arrays.asList(categoryNewsList));
-        adapter = new NewsAdapter(MainActivity.this, categoryNewsList);
+        adapter = new NewsAdapter(MainActivity.this, newsList);
         newsListView.setAdapter(adapter);
     }
 
+
+    int tmp_news_type = 1;
     /* show search results */
     private void updateNewsList(String query) {
-        ArrayList<News> searchNewsList = new ArrayList<>();
+        if (news_type != 13) {
+            tmp_news_type = news_type;
+            news_type = 13;
+        }
         newsSystem.searchInit(query);
-        try{
-            newsSystem.searchNews();
-            searchNewsList = newsSystem.getSearchNewsList();
+        newsList = new ArrayList<>();
+        try {
+            if (newsSystem.getSearchNewsList().size() == 0)
+                newsSystem.searchNews();
+            newsList = newsSystem.getSearchNewsList();
         } catch(Exception e) {
             Toast.makeText(MainActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
         }
+        //prevNewsList = (ArrayList<News>) newsList.clone();
         //adapter = new NewsAdapter(MainActivity.this, R.layout.news_item_layout, Arrays.asList(searchNewsList));
-        adapter = new NewsAdapter(MainActivity.this, searchNewsList);
+        adapter = new NewsAdapter(MainActivity.this, newsList);
         newsListView.setAdapter(adapter);
     }
 
@@ -204,6 +222,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.O
     }
 
     private void restoreNewsList() {
+        news_type = tmp_news_type;
         //adapter = new NewsAdapter(MainActivity.this, R.layout.news_item_layout, Arrays.asList(prevNewsList));
         adapter = new NewsAdapter(MainActivity.this, prevNewsList);
         newsListView.setAdapter(adapter);
@@ -363,6 +382,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.O
                         break;
                     case R.id.nav_home:
                         updateNewsList();
+                        news_type = -1;
                         break;
                     case R.id.nav_edit:
                         Intent intent = new Intent(MainActivity.this, EditCategoryActivity.class);
@@ -395,8 +415,8 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.O
                         }
                         break;
                     default:
-                        //
-                         updateNewsList(item.getItemId());
+                        news_type = item.getItemId()-1;
+                        updateNewsList(item.getItemId());
                         break;
                 }
                 drawerLayout.closeDrawers();
@@ -440,7 +460,6 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.O
     @Override
     public void onLoadingMore() {
         Toast.makeText(this,"上拉",Toast.LENGTH_SHORT).show();
-        //updateNewsList(1);
         //因为本例中没有从网络获取数据，因此这里使用Handler演示4秒延迟来从服务器获取数据的延迟现象，以便于大家
         // 能够看到listView正在刷新的状态。大家在现实使用时只需要使用run（）{}方法中的代码就行了。
         Handler handler = new Handler();
@@ -454,21 +473,33 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.O
                 //通知listview加载完毕
                 newsListView.loadMoreComplete();
             }
-        }, 400);
+        }, 1000);
     }
 
     private void getLoadMoreData() {
         //这里只是模拟3个列表项数据，在现实开发中，listview中的数据都是从服务器获取的。
+        ArrayList<News> news = new ArrayList<>();
         try {
-            newsSystem.getLatestNews();
-        }catch (Exception e){
+            switch (news_type) {
+                case -1:
+                    newsSystem.getLatestNews();
+                    news = newsSystem.getLatestNewsList();
+                    break;
+                case 13:
+                    newsSystem.searchNews();
+                    news = newsSystem.getSearchNewsList();
+                    break;
+                default:
+                    newsSystem.getCategoryNews(news_type);
+                    news = newsSystem.getCategoryNewsList(news_type);
+                    break;
+            }
+        } catch (Exception e) {}
+        int size = newsList.size();
 
+        for(int i = size; i < news.size(); i++){
+            newsList.add(news.get(i));
         }
-        ArrayList<News> news = newsSystem.getLatestNewsList();
-        for(int i = 0; i < 1; i++){
-            newsList.add(news.get(20+i));
-        }
-
     }
 
     private void showListView(List<News> listViewItems) {
