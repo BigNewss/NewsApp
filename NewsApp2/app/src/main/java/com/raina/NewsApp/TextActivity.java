@@ -193,7 +193,7 @@ public class TextActivity extends AppCompatActivity {
 
     private void initContent() {
         Intent intent = getIntent();
-        String title = intent.getStringExtra("Title");
+        final String title = intent.getStringExtra("Title");
         body = intent.getStringExtra("Body");
         pureText = body.replaceAll("<(\\s|\\S)*?>", "");
         ((TextView) findViewById(R.id.textview_body)).setText(Html.fromHtml(body));
@@ -239,12 +239,16 @@ public class TextActivity extends AppCompatActivity {
         } else {
             try {
                 //imageView.setImageBitmap(returnBitMap(GetPictures.getURL(title)));
-                final String get_path = GetPictures.getURL(title);
+                //final String get_path = GetPictures.getURL(title);
                 new Thread(new Runnable() {
 
                     @Override
                     public void run() {
                         //从网络上获取图片
+                        String get_path = "";
+                        try {
+                            get_path = GetPictures.getURL(title);
+                        } catch (Exception e) {}
                         final Bitmap bitmap=returnBitMap(get_path);
 
                         try {
