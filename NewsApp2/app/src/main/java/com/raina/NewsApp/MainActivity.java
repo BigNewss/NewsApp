@@ -440,7 +440,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.O
     @Override
     public void onLoadingMore() {
         Toast.makeText(this,"上拉",Toast.LENGTH_SHORT).show();
-        updateNewsList(1);
+        //updateNewsList(1);
         //因为本例中没有从网络获取数据，因此这里使用Handler演示4秒延迟来从服务器获取数据的延迟现象，以便于大家
         // 能够看到listView正在刷新的状态。大家在现实使用时只需要使用run（）{}方法中的代码就行了。
         Handler handler = new Handler();
