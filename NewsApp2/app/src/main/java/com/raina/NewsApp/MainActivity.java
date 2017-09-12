@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
     private ListView newsListView;
     private SearchView searchView;
     private News[] prevNewsList;
-
+    boolean isNight;
     public static Context context;
 
     @Override
@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         translucentStatusBar();
         setContentView(R.layout.activity_main);
-
+        isNight = false;
         StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
                 .detectDiskReads().detectDiskWrites().detectNetwork()
                 .penaltyLog().build());
@@ -344,6 +344,18 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.nav_favourite:
                         updateFavouriteNewsList();
                         break;
+                    case R.id.nav_all:
+                        updateNewsList();
+                        break;
+                    case R.id.nav_day_mode:
+                        AppContext.me().setTheme(MainActivity.this, false);
+                        Toast.makeText(MainActivity.this, (isNight)? "Night" : "Day", Toast.LENGTH_SHORT).show();
+                        isNight = !isNight;
+                        break;
+                    case R.id.nav_night_mode:
+                        AppContext.me().setTheme(MainActivity.this, true);
+                        isNight = !isNight;
+                        break;
                     case Menu.FIRST + 12:
                         Intent intent = new Intent(MainActivity.this, EditCategoryActivity.class);
                         startActivity(intent);
@@ -356,5 +368,10 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        AppContext.me().refreshResources(this);
     }
 }
