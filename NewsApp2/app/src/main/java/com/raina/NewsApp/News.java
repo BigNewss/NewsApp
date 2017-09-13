@@ -49,10 +49,7 @@ class News implements Serializable{
     String newsIntro; // 新闻简介
     String newsDetail;
 
-    boolean hasRead() {
-        if (newsDetail.equals("")) return false;
-        else return true;
-    }
+    public static HashSet readNews = new HashSet();
 
     News() {
         keyWords = "";
@@ -127,6 +124,7 @@ class News implements Serializable{
 
     String getWholeNews() throws Exception {
         if (!newsDetail.equals("")) return newsDetail;
+        readNews.add(newsId);
         JSONObject json = URLJSONReader.readJsonFromUrl("http://166.111.68.66:2042/news/action/query/detail?newsId="+newsId);
         String res = "";
         res = json.get("news_Content").toString();
@@ -173,6 +171,14 @@ class News implements Serializable{
             NewsSystem.hs.remove(newsId);
             return false;
         } else return true;
+    }
+
+    boolean hasRead() {
+        if (readNews.add(newsId) == true) {
+            readNews.remove(newsId);
+            return false;
+        }
+        else return true;
     }
 
     void unsave(Context context) throws Exception {
