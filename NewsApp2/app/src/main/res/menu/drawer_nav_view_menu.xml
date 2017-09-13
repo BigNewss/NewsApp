@@ -27,6 +27,10 @@
                 android:id="@+id/nav_text_mode"
                 android:icon="@drawable/icon_picture"
                 android:title="Picture"/>
+            <item
+                android:id="@+id/nav_block"
+                android:icon="@drawable/icon_block"
+                android:title="Block"/>
         </menu>
     </item>
 

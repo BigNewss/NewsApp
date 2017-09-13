@@ -52,7 +52,6 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.O
     private RefreshListView newsListView;
     private SearchView searchView;
     private ArrayList<News> prevNewsList;
-    private ArrayList<String> blockList;
     public static Context context;
     private static String THEME_KEY = "theme_mode";
     private static boolean onFavouriteList = false;
@@ -441,6 +440,10 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.O
                             item.setIcon(R.drawable.icon_picture);
                             item.setTitle("Picture");
                         }
+                        break;
+                    case R.id.nav_block:
+                        Intent blockIntent = new Intent(MainActivity.this,EditBlockActivity.class);
+                        startActivity(blockIntent);
                         break;
                     default:
                         news_type = item.getItemId()-1;

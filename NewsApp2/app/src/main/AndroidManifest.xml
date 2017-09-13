@@ -36,7 +36,8 @@
             android:theme="@style/AppTheme">
         </activity>
         <activity android:name=".EditCategoryActivity"/>
-
+        <activity android:name=".EditBlockActivity">
+        </activity>
         <activity
             android:name="com.mob.tools.MobUIShell"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
