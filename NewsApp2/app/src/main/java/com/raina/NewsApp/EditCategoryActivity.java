@@ -1,6 +1,7 @@
 package com.raina.NewsApp;;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -13,6 +14,11 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 import android.widget.ImageButton;
+
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStreamReader;
 
 /**
  * Created by pilgrims on 09/09/2017.
@@ -43,7 +49,6 @@ public class EditCategoryActivity extends Activity implements View.OnClickListen
     @Override
     protected void onStart() {
         super.onStart();
-        //addButton();
     }
 
     //保存持久性数据
@@ -51,6 +56,16 @@ public class EditCategoryActivity extends Activity implements View.OnClickListen
     protected void onPause() {
         Toast.makeText(EditCategoryActivity.this, "pause", Toast.LENGTH_SHORT).show();
         super.onPause();
+        try {
+            FileOutputStream fw = openFileOutput("cateList.txt", Context.MODE_PRIVATE);
+            String s = "";
+            for (int i = 0; i < Category.exist.length - 1; i++){
+                s += Category.exist[i] +" ";
+            }
+            s+=Category.exist[Category.exist.length - 1];
+            fw.write(s.getBytes());
+            fw.close();
+        } catch (Exception e) {}
         //Intent intent = new Intent(this,MainActivity.class);
         //startActivity(intent);
     }

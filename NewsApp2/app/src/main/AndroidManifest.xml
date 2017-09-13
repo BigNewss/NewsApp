@@ -15,7 +15,7 @@
     <application
         android:name=".AppContext"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/icon1"
         android:label="Nouvelle"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"

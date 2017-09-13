@@ -37,7 +37,8 @@
         android:background="@mipmap/gradient"
         app:itemTextColor="#bbFFFFFF"
         app:itemIconTint="#bbFFFFFF"
-        app:theme="@style/MenuTextStyle" >
+        app:theme="@style/MenuTextStyle"
+        app:headerLayout="@layout/drawer_nav_view_header_layout">
 
     </android.support.design.widget.NavigationView>
 
