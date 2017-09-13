@@ -22,7 +22,7 @@ public class startActivity extends Activity {
 
         //渐变展示启动屏
         AlphaAnimation aa = new AlphaAnimation(0.0f,1.0f);
-        aa.setDuration(4000);
+        aa.setDuration(3000);
         aa.getFillAfter();
         findViewById(R.id.imageview_start).startAnimation(aa);
         aa.setAnimationListener(new AnimationListener()
