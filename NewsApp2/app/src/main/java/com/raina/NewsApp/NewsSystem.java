@@ -69,8 +69,18 @@ class NewsSystem {
 
     ArrayList<News> getMarkNewsList() {
         res = new ArrayList<News>();
-        for (int i = 0; i < markNewsList.length; i++)
+        for (int i = 0; i < markNewsList.length; i++) {
+            ArrayList<String> bl = Block.blockList;
+            boolean check = false;
+            for (int j = 0; j < bl.size(); j++) {
+                if (markNewsList[i].getNewsTitle().indexOf(bl.get(j)) != -1) {
+                    check = true;
+                    break;
+                }
+            }
+            if (check) continue;
             res.add(markNewsList[i]);
+        }
         return res;
     }
 
@@ -122,8 +132,18 @@ class NewsSystem {
 
     ArrayList<News> getSearchNewsList() {
         res = new ArrayList<News>();
-        for (int i = 0; i < searchNewsList.length; i++)
+        for (int i = 0; i < searchNewsList.length; i++) {
+            ArrayList<String> bl = Block.blockList;
+            boolean check = false;
+            for (int j = 0; j < bl.size(); j++) {
+                if (searchNewsList[i].getNewsTitle().indexOf(bl.get(j)) != -1) {
+                    check = true;
+                    break;
+                }
+            }
+            if (check) continue;
             res.add(searchNewsList[i]);
+        }
         return res;
     }
 
@@ -143,8 +163,18 @@ class NewsSystem {
 
     ArrayList<News> getCategoryNewsList(int type) throws Exception {
         res = new ArrayList<News>();
-        for (int i = 0; i < categoryNewsList[type].length; i++)
+        for (int i = 0; i < categoryNewsList[type].length; i++) {
+            ArrayList<String> bl = Block.blockList;
+            boolean check = false;
+            for (int j = 0; j < bl.size(); j++) {
+                if (categoryNewsList[type][i].getNewsTitle().indexOf(bl.get(j)) != -1) {
+                    check = true;
+                    break;
+                }
+            }
+            if (check) continue;
             res.add(categoryNewsList[type][i]);
+        }
         return res;
     }
 
@@ -165,8 +195,18 @@ class NewsSystem {
 
     ArrayList<News> getLatestNewsList() {
         res = new ArrayList<News>();
-        for (int i = 0; i < latestNewsList.length; i++)
+        for (int i = 0; i < latestNewsList.length; i++) {
+            ArrayList<String> bl = Block.blockList;
+            boolean check = false;
+            for (int j = 0; j < bl.size(); j++) {
+                if (latestNewsList[i].getNewsTitle().indexOf(bl.get(j)) != -1) {
+                    check = true;
+                    break;
+                }
+            }
+            if (check) continue;
             res.add(latestNewsList[i]);
+        }
         return res;
     }
 

@@ -7,7 +7,7 @@ package com.raina.NewsApp;
 
 public class Category{
     private volatile static Category category;
-    private static boolean exist[] = new boolean[12];
+    public static boolean exist[] = new boolean[12];
     private Category(){
         for(int i = 0; i < 12; i++){
             exist[i] = true;
@@ -18,6 +18,20 @@ public class Category{
         for(int i = 0; i < 12; i++){
             exist[i] = ss[i].equals("1");
         }
+    }
+    public static Category getCategory(String s) {
+        if (category == null) {
+            synchronized (Category.class) {
+                if (category == null) {
+                    if(s.equals(""))
+                    category= new Category();
+                    else{
+                        category = new Category(s);
+                    }
+                }
+            }
+        }
+        return category;
     }
     public static Category getCategory() {
         if (category == null) {

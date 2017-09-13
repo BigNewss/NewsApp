@@ -43,8 +43,8 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.O
     public static boolean nightMode;
     public static Typeface titleTypeface;
     public static Typeface introTypeface;
-    private int news_type = -1;
-    private ArrayList<News> newsList;
+    public static int news_type = -1;
+    public static ArrayList<News> newsList;
     private NewsAdapter adapter;
     private DrawerLayout drawerLayout;
     private Toolbar toolbar;
@@ -55,6 +55,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.O
     public static Context context;
     private static String THEME_KEY = "theme_mode";
     private static boolean onFavouriteList = false;
+    private static boolean onBlockWord = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -83,9 +84,30 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.O
     protected void onStart() {
         super.onStart();
         initNavigationView();
+        FileInputStream is;
+        InputStreamReader ir;
+        BufferedReader in;
+        String s;
+        try {
+            is = openFileInput("cateList.txt");
+            ir = new InputStreamReader(is);
+            in = new BufferedReader(ir);
+            s = in.readLine();
+            in.close();
+            ir.close();
+            is.close();
+            Category.getCategory(s);
+        } catch (Exception e) {
+
+        }
         if(onFavouriteList) {
             updateFavouriteNewsList();
             onFavouriteList = false;
+        }
+        if(onBlockWord) {
+            adapter = new NewsAdapter(MainActivity.this, newsList);
+            newsListView.setAdapter(adapter);
+            onBlockWord = false;
         }
 
         if(adapter != null) adapter.notifyDataSetChanged();
@@ -205,7 +227,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.O
     }
 
 
-    int tmp_news_type = 1;
+    public static int tmp_news_type = 1;
     /* show search results */
     private void updateNewsList(String query) {
         if (news_type != 13) {
@@ -349,6 +371,26 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.O
             } catch (Exception e) {}
         }
 
+        file = new File(path+"blockList.txt");
+        if(!file.exists()){
+            try {
+                FileOutputStream fw = openFileOutput("blockList.txt", Context.MODE_PRIVATE);
+                String s = "";
+                fw.write(s.getBytes());
+                fw.close();
+            } catch (Exception e) {}
+        }
+
+        file = new File(path+"cateList.txt");
+        if(!file.exists()){
+            try {
+                FileOutputStream fw = openFileOutput("cateList.txt", Context.MODE_PRIVATE);
+                String s = "";
+                fw.write(s.getBytes());
+                fw.close();
+            } catch (Exception e) {}
+        }
+
         file = new File(path+"savedList.txt");
         if(!file.exists()){
             try {
@@ -388,7 +430,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.O
         menu.clear();
         String[] categories = getResources().getStringArray(R.array.categories);
         for(int i = 0; i< 12; i++){
-            if(Category.getCategory().get(i)){
+            if(Category.getCategory("").get(i)){
                 menu.add(Menu.NONE,Menu.FIRST+i,i,categories[i]);
             }
         }
@@ -442,6 +484,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.O
                         }
                         break;
                     case R.id.nav_block:
+                        onBlockWord = true;
                         Intent blockIntent = new Intent(MainActivity.this,EditBlockActivity.class);
                         startActivity(blockIntent);
                         break;
