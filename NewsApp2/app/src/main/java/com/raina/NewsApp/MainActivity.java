@@ -207,6 +207,8 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.O
             }
         });
 
+        newsListView.setVerticalScrollBarEnabled(true);
+
     }
 
     /* show latest news */
