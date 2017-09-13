@@ -103,6 +103,7 @@
             android:layout_height="50dp"
             android:scaleType="fitXY"
             android:src="@drawable/icon_collapse"
+            android:onClick="doClick"
             android:background="#00000000"/>
 
     </LinearLayout>

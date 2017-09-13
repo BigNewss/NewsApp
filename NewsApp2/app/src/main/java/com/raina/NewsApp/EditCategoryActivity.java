@@ -37,7 +37,6 @@ public class EditCategoryActivity extends Activity implements View.OnClickListen
                 button.setBackgroundDrawable(getDrawable(R.drawable.btn_1_shape));
                 //button.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
         }
-        ((ImageButton) findViewById(R.id.type_confirm)).setOnClickListener(this);
     }
 
     @Override
@@ -71,10 +70,10 @@ public class EditCategoryActivity extends Activity implements View.OnClickListen
                 break;
             }
         }
-        if(view.getId() == R.id.type_confirm)
-            finish();
-        //changeColor(but);
 
+    }
+    public void doClick(View v){
+        this.finish();
     }
 
     @Override

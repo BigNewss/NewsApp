@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.O
     private RefreshListView newsListView;
     private SearchView searchView;
     private ArrayList<News> prevNewsList;
+    private ArrayList<String> blockList;
     public static Context context;
     private static String THEME_KEY = "theme_mode";
 
