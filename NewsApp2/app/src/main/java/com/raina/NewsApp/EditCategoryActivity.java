@@ -49,6 +49,7 @@ public class EditCategoryActivity extends Activity implements View.OnClickListen
     @Override
     protected void onStart() {
         super.onStart();
+
     }
 
     //保存持久性数据

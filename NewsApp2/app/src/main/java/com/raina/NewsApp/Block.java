@@ -20,6 +20,15 @@ public class Block {
             blockList.add(ss[i]);
         }
     }
+    public static void setBlock(String s){
+        blockList = new ArrayList<>();
+        if (s == null) return;
+        String[] ss = s.split(" ");
+        for(int i = 0; i < ss.length; i++){
+            blockList.add(ss[i]);
+        }
+    }
+
     public static Block getBlock() {
         if (block== null) {
             synchronized (Category.class) {
@@ -37,5 +46,16 @@ public class Block {
 
     public static void removeBlock(String s){
         blockList.remove(s);
+    }
+    public static String saveBlock(){
+        String s = "";
+        if(blockList.size() == 0){
+            return s;
+        }
+        for(int i = 0; i < blockList.size() - 1; i++){
+            s+=blockList.get(i) + " ";
+        }
+        s+=blockList.get(blockList.size() - 1);
+        return s;
     }
 }

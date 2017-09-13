@@ -72,13 +72,13 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.O
                 .penaltyLog().penaltyDeath().build());
         nightMode = ConfigUtil.getBoolean(THEME_KEY, false);
 
-        initDrawer();
-        initNewsList();
-        initMark();
+
 
         //titleTypeface = Typeface.createFromAsset(getAssets(), "fonts/SourceHanSans-Heavy.otf");
         //introTypeface = Typeface.createFromAsset(getAssets(), "fonts/SourceHanSans-Normal.otf");
     }
+
+    boolean firsttime = true;
 
     @Override
     protected void onStart() {
@@ -99,6 +99,18 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.O
         } catch (Exception e) {
 
         }
+        try {
+            is = openFileInput("blockList.txt");
+            ir = new InputStreamReader(is);
+            in = new BufferedReader(ir);
+            s = in.readLine();
+            in.close();
+            ir.close();
+            is.close();
+            Block.setBlock(s);
+        } catch (Exception e) {
+
+        }
         if(onFavouriteList) {
             updateFavouriteNewsList();
             //onFavouriteList = false;
@@ -108,7 +120,12 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.O
             newsListView.setAdapter(adapter);
             onBlockWord = false;
         }
-        initNavigationView();
+        if (firsttime) {
+            firsttime = false;
+            initDrawer();
+            initNewsList();
+            initMark();
+        }
         if(adapter != null) adapter.notifyDataSetChanged();
     }
 

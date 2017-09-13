@@ -16,6 +16,12 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStreamReader;
+
 
 public class EditBlockActivity extends AppCompatActivity {
     private Toolbar toolbar;
@@ -35,6 +41,34 @@ public class EditBlockActivity extends AppCompatActivity {
         super.onStart();
         if(adapter != null)
             adapter.notifyDataSetChanged();
+        initView();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        try {
+            FileOutputStream fw = openFileOutput("blockList.txt", Context.MODE_PRIVATE);
+            String s = Block.saveBlock();
+            fw.write(s.getBytes());
+            fw.close();
+        } catch (Exception e) {}
+        switch (MainActivity.news_type) {
+            case -1:
+                //newsSystem.getLatestNews();
+                MainActivity.newsList = MainActivity.newsSystem.getLatestNewsList();
+                break;
+            case 13:
+                //newsSystem.searchNews();
+                MainActivity.newsList = MainActivity.newsSystem.getSearchNewsList();
+                break;
+            default:
+                //newsSystem.getCategoryNews(news_type);
+                try {
+                    MainActivity.newsList = MainActivity.newsSystem.getCategoryNewsList(MainActivity.news_type);
+                } catch (Exception e) {}
+                break;
+        }
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
