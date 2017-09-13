@@ -10,8 +10,7 @@
     <string name="nav_saved">Saved</string>
     <string name="nav_category">Category</string>
     <string name="nav_home">Home</string>
-    <string name="nav_day_mode">Day</string>
-    <string name="nav_night_mode">NIght</string>
+    <string name="nav_color_mode">Night</string>
 
     <string name="type_0">Technology</string>
     <string name="type_1">Education</string>

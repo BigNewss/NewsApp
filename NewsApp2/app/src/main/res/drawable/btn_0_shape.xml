@@ -4,6 +4,6 @@
     android:id="@+id/shape0"
     android:shape="rectangle">
     <!-- 填充的颜色 -->
-    <solid android:color="@color/colorBackgroundWhite" />
+    <solid android:color="#50FFFFFF" />
     <corners android:radius="30dip" />
 </shape>

@@ -57,10 +57,14 @@ public class NewsAdapter extends BaseAdapter{
             viewHolder = (ViewHolder) convertView.getTag();
         }
         if(news.hasRead())
-            viewHolder.newsTitle.setTextColor(convertView.getResources().getColor(R.color.colorGrey2));
+            viewHolder.newsTitle.setTextColor(convertView.getResources().getColor(R.color.colorSeen));
         else
+<<<<<<< HEAD
             viewHolder.newsTitle.setTextColor(convertView.getResources().getColor(R.color.colorPrimaryDark));
 
+=======
+            viewHolder.newsTitle.setTextColor(convertView.getResources().getColor(R.color.title_color));
+>>>>>>> ecc2c1d3ea0073291b4856d7b678d31362cc542d
         viewHolder.newsIntro.setText(items.get(position).getNewsIntro());
         viewHolder.newsTitle.setText(items.get(position).getNewsTitle());
         return convertView;
