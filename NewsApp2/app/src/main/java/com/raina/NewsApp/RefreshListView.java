@@ -147,7 +147,6 @@ public class RefreshListView extends ListView implements OnScrollListener {
                     }
                     //动态刷新headerView的顶部padding，这样lisview就在动态的变化
                     headerView.setPadding(0, paddingTop, 0, 0);
-                    return true;
                 }
                 break;
             //手指抬起时，判断listview当前的状态
