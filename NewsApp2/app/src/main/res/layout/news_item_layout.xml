@@ -3,7 +3,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@mipmap/news_background2"
+    android:background="@mipmap/news_background"
     android:padding="20dp"
     android:layout_margin="30dp">
 

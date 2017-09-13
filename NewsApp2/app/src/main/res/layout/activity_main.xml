@@ -34,7 +34,7 @@
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
         app:menu="@menu/drawer_nav_view_menu"
-        android:background="@mipmap/gradient_1"
+        android:background="@mipmap/gradient"
         app:itemTextColor="@color/colorWhite"
         app:itemIconTint="@color/colorWhite"
         app:theme="@style/MenuTextStyle" >
