@@ -74,6 +74,14 @@ public class EditBlockActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
         ((TextView) findViewById(R.id.toolbar_title)).setText("Block");
+        Typeface tf1 = Typeface.createFromAsset(getAssets(), "fonts/Antonio-Regular.ttf");
+        ((TextView) findViewById(R.id.toolbar_title)).setTypeface(tf1);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
     private void initView(){
         Toast.makeText(this, "news list", Toast.LENGTH_SHORT).show();
