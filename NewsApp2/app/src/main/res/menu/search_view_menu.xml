@@ -7,6 +7,6 @@
         android:id="@+id/search_view"
         android:orderInCategory="100"
         android:title="@string/app_name"
-        android:icon="@drawable/icon_search"
+        android:icon="@drawable/icon_search_1"
         app:showAsAction="collapseActionView|ifRoom" />
 </menu>

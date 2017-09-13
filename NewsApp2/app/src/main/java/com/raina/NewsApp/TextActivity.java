@@ -16,6 +16,7 @@ import android.view.Gravity;
 import android.view.MenuInflater;
 import android.view.View;
 import android.content.Intent;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
@@ -236,6 +237,9 @@ public class TextActivity extends AppCompatActivity {
                                 @Override
                                 public void run() {
                                     imageView.setImageBitmap(bitmap);//在ImageView中显示从网络上获取到的图片
+                                    ViewGroup.LayoutParams layoutParams = imageView.getLayoutParams();
+                                    layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
+                                    imageView.setLayoutParams(layoutParams);
                                 }
 
                             });

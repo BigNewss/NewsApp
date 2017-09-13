@@ -1,6 +1,7 @@
 package com.raina.NewsApp;
 
 import android.content.Context;
+import android.os.Handler;
 import android.support.design.widget.NavigationView;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -30,21 +31,23 @@ import android.support.design.internal.NavigationMenuView;
 import android.graphics.Typeface;
 import android.view.SubMenu;
 import java.io.*;
+import java.util.*;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements RefreshListView.OnRefreshListener{
 
     public static News currentNews;
     public static NewsSystem newsSystem;
     public static boolean picMode = true;
     public static boolean nightMode;
-
-    private News[] newsList;
+    private int news_type = -1;
+    private ArrayList<News> newsList;
     private NewsAdapter adapter;
     private DrawerLayout drawerLayout;
     private Toolbar toolbar;
-    private ListView newsListView;
+    //private ListView newsListView;
+    private RefreshListView newsListView;
     private SearchView searchView;
-    private News[] prevNewsList;
+    private ArrayList<News> prevNewsList;
     public static Context context;
     private static String THEME_KEY = "theme_mode";
 
@@ -74,6 +77,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         initNavigationView();
+        if(adapter != null) adapter.notifyDataSetChanged();
     }
 
     private void initDrawer() {
@@ -88,9 +92,25 @@ public class MainActivity extends AppCompatActivity {
         );
         drawerLayout.setDrawerListener(drawerToggle);
         drawerToggle.syncState();
+
         initNavigationView();
+        final NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view_drawer);
+        final View contentView = findViewById(R.id.content_main);
+        drawerLayout.setDrawerListener(new DrawerLayout.SimpleDrawerListener() {
+            @Override
+            public void onDrawerSlide(View drawerView, float slideOffset) {
+                super.onDrawerSlide(drawerView, slideOffset);
+
+                System.out.println(navigationView.getWidth()+navigationView.getX());
+                //根据侧边栏控件宽度和其移动像素计算内容布局位移，使内容布局左边紧贴侧边栏控件右边
+                contentView.setX(navigationView.getWidth()+navigationView.getX());
+            }
+        });
+
+
         Typeface tf1 = Typeface.createFromAsset(getAssets(), "fonts/Bodoni 72.ttc");
         ((TextView) findViewById(R.id.toolbar_title)).setTypeface(tf1);
+
     }
 
     private void initToolbar() {
@@ -102,18 +122,20 @@ public class MainActivity extends AppCompatActivity {
         ((TextView) findViewById(R.id.toolbar_title)).setText("Nouvelle");
         Typeface tf1 = Typeface.createFromAsset(getAssets(), "fonts/Bodoni 72.ttc");
         ((TextView) findViewById(R.id.toolbar_title)).setTypeface(tf1);
-
     }
 
     private void initNewsList(){
         Toast.makeText(MainActivity.this, "news list", Toast.LENGTH_SHORT).show();
-        newsListView = (ListView) findViewById(R.id.listview_news);
+        //newsListView = (ListView) findViewById(R.id.listview_news);
+        newsListView = (RefreshListView) findViewById(R.id.listview_news);
+        newsListView.setOnRefreshListener(this);
         //ImageView headerImage = (ImageView) LayoutInflater.from(this).inflate(R.layout.list_view_header_layout, newsListView, false);
         //newsListView.addHeaderView(headerImage);
 
         initNews();
-        prevNewsList = (News[]) newsList.clone();
-        adapter = new NewsAdapter(MainActivity.this, R.layout.news_item_layout, newsList);
+        prevNewsList = (ArrayList<News>) newsList.clone();
+        //adapter = new NewsAdapter(MainActivity.this, R.layout.news_item_layout, newsList);
+        adapter = new NewsAdapter(this, newsList);
         newsListView.setAdapter(adapter);
         Toast.makeText(MainActivity.this, "~", Toast.LENGTH_SHORT).show();
 
@@ -133,6 +155,7 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtra("keywords", ((News)parent.getItemAtPosition(pos)).getKeyWords());
                 currentNews = (News)parent.getItemAtPosition(pos);
                 MainActivity.this.startActivity(intent);
+
             }
         });
 
@@ -148,74 +171,92 @@ public class MainActivity extends AppCompatActivity {
 
     /* show latest news */
     private void updateNewsList() {
-        adapter = new NewsAdapter(MainActivity.this, R.layout.news_item_layout, newsList);
-        newsListView.setAdapter(adapter);
-    }
-
-    private void showNewsList(int type) {
-        type--;
-        News[] categoryNewsList = new News[0];
+        //adapter = new NewsAdapter(MainActivity.this, R.layout.news_item_layout, newsList);
+        newsList = new ArrayList<>();
         try {
-            if(newsSystem.getCategoryNewsList(type).length == 0) newsSystem.getCategoryNews(type);
-            categoryNewsList = newsSystem.getCategoryNewsList(type);
+            if (newsSystem.getLatestNewsList().size() == 0)
+                newsSystem.getLatestNews();
+            newsList = newsSystem.getLatestNewsList();
         } catch(Exception e) {
             Toast.makeText(MainActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
         }
-        prevNewsList = (News[]) categoryNewsList.clone();
-        adapter = new NewsAdapter(MainActivity.this, R.layout.news_item_layout, categoryNewsList);
+        prevNewsList = (ArrayList<News>) newsList.clone();
+        adapter = new NewsAdapter(MainActivity.this, newsList);
         newsListView.setAdapter(adapter);
     }
 
     /* show news in a category */
     private void updateNewsList(int type) {
         type--;
-        News[] categoryNewsList = new News[0];
+        newsList = new ArrayList<>();
         try {
-            newsSystem.getCategoryNews(type);
-            categoryNewsList = newsSystem.getCategoryNewsList(type);
+            if (newsSystem.getCategoryNewsList(type).size() == 0)
+                newsSystem.getCategoryNews(type);
+            newsList = newsSystem.getCategoryNewsList(type);
         } catch(Exception e) {
             Toast.makeText(MainActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
         }
-        prevNewsList = (News[]) categoryNewsList.clone();
-        adapter = new NewsAdapter(MainActivity.this, R.layout.news_item_layout, categoryNewsList);
+        prevNewsList = (ArrayList<News>) newsList.clone();
+        //adapter = new NewsAdapter(MainActivity.this, R.layout.news_item_layout, Arrays.asList(categoryNewsList));
+        adapter = new NewsAdapter(MainActivity.this, newsList);
         newsListView.setAdapter(adapter);
     }
 
+
+    int tmp_news_type = 1;
     /* show search results */
     private void updateNewsList(String query) {
-        News[] searchNewsList = new News[0];
+        if (news_type != 13) {
+            tmp_news_type = news_type;
+            news_type = 13;
+        }
         newsSystem.searchInit(query);
-        try{
-            newsSystem.searchNews();
-            searchNewsList = newsSystem.getSearchNewsList();
+        newsList = new ArrayList<>();
+        try {
+            if (newsSystem.getSearchNewsList().size() == 0)
+                newsSystem.searchNews();
+            newsList = newsSystem.getSearchNewsList();
         } catch(Exception e) {
             Toast.makeText(MainActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
         }
-        adapter = new NewsAdapter(MainActivity.this, R.layout.news_item_layout, searchNewsList);
+        //prevNewsList = (ArrayList<News>) newsList.clone();
+        //adapter = new NewsAdapter(MainActivity.this, R.layout.news_item_layout, Arrays.asList(searchNewsList));
+        adapter = new NewsAdapter(MainActivity.this, newsList);
         newsListView.setAdapter(adapter);
     }
 
     /* show favorite news */
     private void updateFavouriteNewsList() {
-        News[] favouriteNewsList = new News[0];
+        ArrayList<News> favouriteNewsList = new ArrayList<>();
         try{
             favouriteNewsList = newsSystem.getMarkNewsList();
         } catch(Exception e) {
             Toast.makeText(MainActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
         }
-        prevNewsList = (News[]) favouriteNewsList.clone();
-        adapter = new NewsAdapter(MainActivity.this, R.layout.news_item_layout, favouriteNewsList);
+        newsList = favouriteNewsList;
+        prevNewsList = (ArrayList<News>) favouriteNewsList.clone();
+        //adapter = new NewsAdapter(MainActivity.this, R.layout.news_item_layout, Arrays.asList(favouriteNewsList));
+        adapter = new NewsAdapter(MainActivity.this, newsList);
         newsListView.setAdapter(adapter);
     }
 
     private void restoreNewsList() {
-        adapter = new NewsAdapter(MainActivity.this, R.layout.news_item_layout, prevNewsList);
+        if (news_type == 13) news_type = tmp_news_type;
+        newsList = new ArrayList<>();
+        for (int i = 0; i < prevNewsList.size(); i++)
+            newsList.add(prevNewsList.get(i));
+        //prevNewsList = (ArrayList<News>) newsList.clone();
+        //adapter = new NewsAdapter(MainActivity.this, R.layout.news_item_layout, Arrays.asList(categoryNewsList));
+        adapter = new NewsAdapter(MainActivity.this, newsList);
         newsListView.setAdapter(adapter);
+        //adapter = new NewsAdapter(MainActivity.this, R.layout.news_item_layout, Arrays.asList(prevNewsList));
+        //adapter = new NewsAdapter(MainActivity.this, prevNewsList);
+        //newsListView.setAdapter(adapter);
     }
 
     private void translucentStatusBar() {
         getWindow().setStatusBarColor(Color.TRANSPARENT);
-        //getWindow().setNavigationBarColor(Color.TRANSPARENT);
+        getWindow().setNavigationBarColor(getResources().getColor(R.color.colorGrey));
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN|View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
 
     }
@@ -287,7 +328,6 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(MainActivity.this, "Successful", Toast.LENGTH_SHORT).show();
 
         }catch (Exception e) {
-            newsList = new News[0];
             Toast.makeText(MainActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
         }
 
@@ -365,9 +405,11 @@ public class MainActivity extends AppCompatActivity {
                 switch (item.getItemId()) {
                     case R.id.nav_favourite:
                         updateFavouriteNewsList();
+                        news_type = -2;
                         break;
                     case R.id.nav_home:
                         updateNewsList();
+                        news_type = -1;
                         break;
                     case R.id.nav_edit:
                         Intent intent = new Intent(MainActivity.this, EditCategoryActivity.class);
@@ -400,7 +442,8 @@ public class MainActivity extends AppCompatActivity {
                         }
                         break;
                     default:
-                         showNewsList(item.getItemId());
+                        news_type = item.getItemId()-1;
+                        updateNewsList(item.getItemId());
                         break;
                 }
                 drawerLayout.closeDrawers();
@@ -412,5 +455,107 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         AppContext.me().refreshResources(this);
+    }
+//
+
+    /**
+     * 下拉刷新的接口方法
+     */
+    @Override
+    public void onDownPullRefresh() {
+        Toast.makeText(this,"下拉",Toast.LENGTH_SHORT).show();
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                newsListView.onRefreshComplete();
+            }
+        }, 1000);
+
+//        //因为本例中没有从网络获取数据，因此这里使用Handler演示4秒延迟来从服务器获取数据的延迟现象，以便于大家
+//        // 能够看到listView正在刷新的状态。大家在现实使用时只需要使用run（）{}方法中的代码就行了。
+//        Handler handler = new Handler();
+//        handler.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                //获取最新的list数据
+//                getLoadMoreData();
+//                //通知界面显示，
+//                adapter.notifyDataSetChanged();
+//                // 通知listview刷新数据完毕
+//                newsListView.onRefreshComplete();
+//            }
+//        }, 400);
+    }
+
+    /**
+     * 上拉加载更多的接口方法
+     */
+    @Override
+    public void onLoadingMore() {
+        Toast.makeText(this,"上拉",Toast.LENGTH_SHORT).show();
+        if (news_type == -2) {
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    //showListView(newsList);
+                    //通知listview加载完毕
+                    newsListView.loadMoreComplete();
+                }
+            }, 0);
+        } else {
+            //因为本例中没有从网络获取数据，因此这里使用Handler演示4秒延迟来从服务器获取数据的延迟现象，以便于大家
+            // 能够看到listView正在刷新的状态。大家在现实使用时只需要使用run（）{}方法中的代码就行了。
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    //获取更多的数据
+                    getLoadMoreData();
+                    //更新listview显示
+                    showListView(newsList);
+                    //通知listview加载完毕
+                    newsListView.loadMoreComplete();
+                }
+            }, 1000);
+        }
+    }
+
+    private void getLoadMoreData() {
+        //这里只是模拟3个列表项数据，在现实开发中，listview中的数据都是从服务器获取的。
+        ArrayList<News> news = new ArrayList<>();
+        try {
+            switch (news_type) {
+                case -1:
+                    newsSystem.getLatestNews();
+                    news = newsSystem.getLatestNewsList();
+                    break;
+                case 13:
+                    newsSystem.searchNews();
+                    news = newsSystem.getSearchNewsList();
+                    break;
+                default:
+                    newsSystem.getCategoryNews(news_type);
+                    news = newsSystem.getCategoryNewsList(news_type);
+                    break;
+            }
+        } catch (Exception e) {}
+        int size = newsList.size();
+
+        for(int i = size; i < news.size(); i++){
+            newsList.add(news.get(i));
+        }
+    }
+
+    private void showListView(List<News> listViewItems) {
+        if (adapter == null) {
+            //为listview配置adapter
+            adapter = new NewsAdapter(this, newsList);
+            newsListView.setAdapter(adapter);
+        } else {
+            //当有数据变化时，自动刷新界面
+            adapter.onDateChange(newsList);
+        }
     }
 }

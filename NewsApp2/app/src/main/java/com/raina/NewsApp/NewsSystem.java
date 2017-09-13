@@ -19,6 +19,7 @@ class NewsSystem {
     //private static Context context;
     public static HashSet hs = new HashSet();
 
+    ArrayList<News> res;
     News[] latestNewsList;
     News[] searchNewsList;
     News[][] categoryNewsList;
@@ -66,8 +67,11 @@ class NewsSystem {
 
     }
 
-    News[] getMarkNewsList() {
-        return markNewsList;
+    ArrayList<News> getMarkNewsList() {
+        res = new ArrayList<News>();
+        for (int i = 0; i < markNewsList.length; i++)
+            res.add(markNewsList[i]);
+        return res;
     }
 
     NewsSystem() throws Exception {
@@ -116,8 +120,11 @@ class NewsSystem {
         searchNewsList = tmpNewsList;
     }
 
-    News[] getSearchNewsList() {
-        return searchNewsList;
+    ArrayList<News> getSearchNewsList() {
+        res = new ArrayList<News>();
+        for (int i = 0; i < searchNewsList.length; i++)
+            res.add(searchNewsList[i]);
+        return res;
     }
 
     void getCategoryNews(int type) throws Exception {
@@ -134,8 +141,11 @@ class NewsSystem {
         categoryNewsList[type] = tmpNewsList;
     }
 
-    News[] getCategoryNewsList(int type) throws Exception {
-        return categoryNewsList[type];
+    ArrayList<News> getCategoryNewsList(int type) throws Exception {
+        res = new ArrayList<News>();
+        for (int i = 0; i < categoryNewsList[type].length; i++)
+            res.add(categoryNewsList[type][i]);
+        return res;
     }
 
     void getLatestNews() throws Exception {
@@ -152,8 +162,12 @@ class NewsSystem {
         latestNewsList = tmpNewsList;
     }
 
-    News[] getLatestNewsList() {
-        return latestNewsList;
+
+    ArrayList<News> getLatestNewsList() {
+        res = new ArrayList<News>();
+        for (int i = 0; i < latestNewsList.length; i++)
+            res.add(latestNewsList[i]);
+        return res;
     }
 
 }

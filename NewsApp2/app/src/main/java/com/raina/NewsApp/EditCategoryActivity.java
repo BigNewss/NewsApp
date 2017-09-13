@@ -12,17 +12,32 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
+import android.widget.ImageButton;
 
 /**
  * Created by pilgrims on 09/09/2017.
  */
 
 public class EditCategoryActivity extends Activity implements View.OnClickListener{
+
+    int[] id = new int[] {R.id.type_0, R.id.type_1, R.id.type_2, R.id.type_3, R.id.type_4, R.id.type_5, R.id.type_6,
+            R.id.type_7, R.id.type_8, R.id.type_9, R.id.type_10, R.id.type_11};
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_category);
-
+        for(int i = 0; i < 12; i++) {
+            Button button = ((Button) findViewById(id[i]));
+            button.setOnClickListener(this);
+            if(Category.getCategory().get(i)){
+                //button.setBackgroundColor(getResources().getColor(R.color.colorBackgroundWhite));
+                button.setBackgroundDrawable(getDrawable(R.drawable.btn_0_shape));
+            }
+            else
+                button.setBackgroundDrawable(getDrawable(R.drawable.btn_1_shape));
+                //button.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+        }
+        ((ImageButton) findViewById(R.id.type_confirm)).setOnClickListener(this);
     }
 
     @Override
@@ -34,6 +49,7 @@ public class EditCategoryActivity extends Activity implements View.OnClickListen
     //保存持久性数据
     @Override
     protected void onPause() {
+        Toast.makeText(EditCategoryActivity.this, "pause", Toast.LENGTH_SHORT).show();
         super.onPause();
         //Intent intent = new Intent(this,MainActivity.class);
         //startActivity(intent);
@@ -42,9 +58,22 @@ public class EditCategoryActivity extends Activity implements View.OnClickListen
     @Override
     public void onClick(View view) {
         Button but = (Button) view;
-        //Toast.makeText(this, Boolean.toString(Category.get(but.getId())),Toast.LENGTH_SHORT).show();
-        Category.getCategory().change(but.getId());
-        changeColor(but);
+
+        for (int i = 0; i < 12; i++) {
+            if(view.getId() == id[i]) {
+                Category.getCategory().change(i);
+                if(Category.getCategory().get(i)){
+                    //button.setBackgroundColor(getResources().getColor(R.color.colorBackgroundWhite));
+                    but.setBackgroundDrawable(getDrawable(R.drawable.btn_0_shape));
+                }
+                else
+                    but.setBackgroundDrawable(getDrawable(R.drawable.btn_1_shape));
+                break;
+            }
+        }
+        if(view.getId() == R.id.type_confirm)
+            onPause();
+        //changeColor(but);
 
     }
 
@@ -74,11 +103,11 @@ public class EditCategoryActivity extends Activity implements View.OnClickListen
     }
     */
     private void changeColor(Button but){
-        if(((ColorDrawable)but.getBackground()).getColor() == getResources().getColor(R.color.colorAccent)){
+        if(((ColorDrawable)but.getBackground()).getColor() == getResources().getColor(R.color.colorBackgroundWhite)){
             but.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
 
         }else{
-            but.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+            but.setBackgroundColor(getResources().getColor(R.color.colorBackgroundWhite));
         }
     }
 }
