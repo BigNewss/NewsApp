@@ -89,13 +89,17 @@ public class EditBlockActivity extends AppCompatActivity {
         });
     }
     private void addBlock(String query){
-        Block.getBlock().addBlock(query);
-        adapter = new BlockAdapter(this, Block.blockList);
-        blockListView.setAdapter(adapter);
+        if(!Block.blockList.contains(query)) {
+            Block.addBlock(query);
+            adapter = new BlockAdapter(this, Block.blockList);
+            blockListView.setAdapter(adapter);
+        }
     }
     private void removeBlock(String query){
-        Block.getBlock().removeBlock(query);
-        adapter = new BlockAdapter(this, Block.blockList);
-        blockListView.setAdapter(adapter);
+        if(Block.blockList.contains(query)) {
+            Block.removeBlock(query);
+            adapter = new BlockAdapter(this, Block.blockList);
+            blockListView.setAdapter(adapter);
+        }
     }
 }

@@ -66,7 +66,6 @@ public class NewsAdapter extends BaseAdapter{
         viewHolder.newsIntro.setText(items.get(position).getNewsIntro());
         viewHolder.newsTitle.setText(items.get(position).getNewsTitle());
 
-
         //viewHolder.newsTitle.setTypeface(MainActivity.titleTypeface);
         //viewHolder.newsIntro.setTypeface(MainActivity.introTypeface);
         return convertView;
