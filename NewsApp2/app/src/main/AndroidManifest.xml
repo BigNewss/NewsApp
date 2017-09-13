@@ -42,7 +42,8 @@
             android:theme="@style/AppTheme">
         </activity>
         <activity android:name=".EditCategoryActivity"/>
-
+        <activity android:name=".EditBlockActivity">
+        </activity>
     </application>
 
 </manifest>
