@@ -30,12 +30,13 @@ public class EditCategoryActivity extends Activity implements View.OnClickListen
             Button button = ((Button) findViewById(id[i]));
             button.setOnClickListener(this);
             if(Category.getCategory().get(i)){
-                //button.setBackgroundColor(getResources().getColor(R.color.colorBackgroundWhite));
                 button.setBackgroundDrawable(getDrawable(R.drawable.btn_0_shape));
+                button.setTextColor(getResources().getColor(R.color.colorGrey));
             }
-            else
+            else {
                 button.setBackgroundDrawable(getDrawable(R.drawable.btn_1_shape));
-                //button.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                button.setTextColor(getResources().getColor(R.color.colorWhite));
+            }
         }
     }
 
@@ -62,11 +63,12 @@ public class EditCategoryActivity extends Activity implements View.OnClickListen
             if(view.getId() == id[i]) {
                 Category.getCategory().change(i);
                 if(Category.getCategory().get(i)){
-                    //button.setBackgroundColor(getResources().getColor(R.color.colorBackgroundWhite));
                     but.setBackgroundDrawable(getDrawable(R.drawable.btn_0_shape));
-                }
-                else
+                    but.setTextColor(getResources().getColor(R.color.colorGrey));
+                } else {
                     but.setBackgroundDrawable(getDrawable(R.drawable.btn_1_shape));
+                    but.setTextColor(getResources().getColor(R.color.colorWhite));
+                }
                 break;
             }
         }
@@ -102,11 +104,13 @@ public class EditCategoryActivity extends Activity implements View.OnClickListen
     }
     */
     private void changeColor(Button but){
-        if(((ColorDrawable)but.getBackground()).getColor() == getResources().getColor(R.color.colorBackgroundWhite)){
-            but.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+        if(((ColorDrawable)but.getBackground()).getColor() == getResources().getColor(R.color.colorWhite)){
+            but.setBackgroundColor(getResources().getColor(R.color.colorButton));
+            but.setTextColor(getResources().getColor(R.color.colorWhite));
 
         }else{
-            but.setBackgroundColor(getResources().getColor(R.color.colorBackgroundWhite));
+            but.setBackgroundColor(getResources().getColor(R.color.colorWhite));
+            but.setTextColor(getResources().getColor(R.color.colorGrey));
         }
     }
 }

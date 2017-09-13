@@ -35,8 +35,8 @@
         android:fitsSystemWindows="true"
         app:menu="@menu/drawer_nav_view_menu"
         android:background="@mipmap/gradient"
-        app:itemTextColor="@color/colorWhite"
-        app:itemIconTint="@color/colorWhite"
+        app:itemTextColor="#bbFFFFFF"
+        app:itemIconTint="#bbFFFFFF"
         app:theme="@style/MenuTextStyle" >
 
     </android.support.design.widget.NavigationView>

@@ -10,7 +10,8 @@
     app:title=" "
     app:theme="@style/ThemeOverlay.AppCompat.Dark"
     android:popupTheme="@style/ToolbarPopupTheme"
-    android:gravity="center">
+    android:gravity="center"
+    android:padding="5dp">
 
     <TextView
         android:id="@+id/toolbar_title"

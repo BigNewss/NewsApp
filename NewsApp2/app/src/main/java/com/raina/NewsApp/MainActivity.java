@@ -425,21 +425,17 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.O
                             AppContext.me().setTheme(MainActivity.this, true);
                             Toast.makeText(MainActivity.this, "Day", Toast.LENGTH_SHORT).show();
                             nightMode = true;
-                            item.setIcon(R.drawable.icon_day);
-                            item.setTitle("Day");
                         } else {
                             AppContext.me().setTheme(MainActivity.this, false);
                             Toast.makeText(MainActivity.this, "Night", Toast.LENGTH_SHORT).show();
                             nightMode = false;
-                            item.setIcon(R.drawable.icon_night);
-                            item.setTitle("Night");
                         }
                         break;
                     case R.id.nav_text_mode:
                         if(picMode) {
                             picMode = false;
                             item.setIcon(R.drawable.icon_text);
-                            item.setTitle("Text");
+                            item.setTitle("No Picture");
                         } else {
                             picMode = true;
                             item.setIcon(R.drawable.icon_picture);

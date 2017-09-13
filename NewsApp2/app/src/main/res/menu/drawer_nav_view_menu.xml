@@ -22,7 +22,7 @@
             <item
                 android:id="@+id/nav_color_mode"
                 android:icon="@drawable/icon_day"
-                android:title="Day"/>
+                android:title="@string/nav_color_mode"/>
             <item
                 android:id="@+id/nav_text_mode"
                 android:icon="@drawable/icon_picture"
@@ -37,12 +37,4 @@
             <item android:id="@+id/item1" android:title="Placeholder"></item>
         </menu>
     </item>
-    <group android:checkableBehavior="single">
-        <item
-            android:id="@+id/nav_day_mode"
-            android:title="@string/nav_day_mode"/>
-        <item
-            android:id="@+id/nav_night_mode"
-            android:title="@string/nav_night_mode"/>
-    </group>
 </menu>
