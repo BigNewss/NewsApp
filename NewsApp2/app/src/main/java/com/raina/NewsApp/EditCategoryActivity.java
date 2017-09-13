@@ -72,7 +72,7 @@ public class EditCategoryActivity extends Activity implements View.OnClickListen
             }
         }
         if(view.getId() == R.id.type_confirm)
-            onPause();
+            finish();
         //changeColor(but);
 
     }
