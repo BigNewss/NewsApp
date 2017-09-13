@@ -1,5 +1,7 @@
 package com.raina.NewsApp;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.os.Handler;
 import android.support.design.widget.NavigationView;
@@ -54,6 +56,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.O
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
+
         translucentStatusBar();
         setContentView(R.layout.activity_main);
 
@@ -155,6 +158,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.O
                 intent.putExtra("keywords", ((News)parent.getItemAtPosition(pos)).getKeyWords());
                 currentNews = (News)parent.getItemAtPosition(pos);
                 MainActivity.this.startActivity(intent);
+                overridePendingTransition(R.anim.fade_out, R.anim.fade_in);
 
             }
         });
@@ -558,4 +562,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.O
             adapter.onDateChange(newsList);
         }
     }
+
+
+
 }

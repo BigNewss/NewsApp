@@ -18,6 +18,8 @@ import android.view.View;
 import android.content.Intent;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -81,7 +83,9 @@ public class TextActivity extends AppCompatActivity {
         initToolbar();
         initContent();
         initPopupWindow();
-        getWindow().setTitle("abc");
+
+
+
     }
 
     @Override
@@ -208,6 +212,24 @@ public class TextActivity extends AppCompatActivity {
         ((TextView) findViewById(R.id.textview_body)).setMovementMethod(LinkMovementMethod.getInstance());
         ((TextView) findViewById(R.id.textview_title)).setText(title);
         ((TextView) findViewById(R.id.textview_subtitle)).setText(MainActivity.currentNews.getNewsAuthor());
+
+        final AlphaAnimation aa = new AlphaAnimation(0.0f,1.0f);
+        aa.setDuration(3000);
+        aa.getFillAfter();
+        findViewById(R.id.textview_body).startAnimation(aa);
+        aa.setAnimationListener(new Animation.AnimationListener()
+        {
+            @Override
+            public void onAnimationEnd(Animation arg0) {
+
+            }
+            @Override
+            public void onAnimationRepeat(Animation animation) {}
+            @Override
+            public void onAnimationStart(Animation animation) {}
+
+        });
+
         final ImageView imageView = (ImageView) findViewById(R.id.imageview_body);
         if(MainActivity.picMode) {
             String[] imageList = MainActivity.currentNews.getNewsPictures();
@@ -240,6 +262,7 @@ public class TextActivity extends AppCompatActivity {
                                     ViewGroup.LayoutParams layoutParams = imageView.getLayoutParams();
                                     layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
                                     imageView.setLayoutParams(layoutParams);
+                                    imageView.setAnimation(aa);
                                 }
 
                             });
@@ -276,8 +299,14 @@ public class TextActivity extends AppCompatActivity {
 
                                 @Override
                                 public void run() {
-                                    if (bitmap != null)
+                                    if (bitmap != null) {
                                         imageView.setImageBitmap(bitmap);//在ImageView中显示从网络上获取到的图片
+                                        ViewGroup.LayoutParams layoutParams = imageView.getLayoutParams();
+                                        layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
+                                        imageView.setLayoutParams(layoutParams);
+                                        imageView.setAnimation(aa);
+                                    }
+
                                 }
 
                             });

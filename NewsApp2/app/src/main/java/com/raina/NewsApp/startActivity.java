@@ -21,9 +21,10 @@ public class startActivity extends Activity {
         setContentView(view);
 
         //渐变展示启动屏
-        AlphaAnimation aa = new AlphaAnimation(0.3f,1.0f);
-        aa.setDuration(2000);
-        view.startAnimation(aa);
+        AlphaAnimation aa = new AlphaAnimation(0.0f,1.0f);
+        aa.setDuration(4000);
+        aa.getFillAfter();
+        findViewById(R.id.imageview_start).startAnimation(aa);
         aa.setAnimationListener(new AnimationListener()
         {
             @Override
@@ -42,5 +43,6 @@ public class startActivity extends Activity {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
         finish();
+        overridePendingTransition(R.anim.fade_out, R.anim.fade_in);
     }
 }

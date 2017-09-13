@@ -1,9 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ImageView
+<LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:scaleType="center"
-    android:src="@mipmap/list_view_header">
 
-</ImageView>
+    android:background="@color/colorGrey">
+    <ImageView
+        android:id="@+id/imageview_start"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/start_image"/>
+</LinearLayout>
+
+
