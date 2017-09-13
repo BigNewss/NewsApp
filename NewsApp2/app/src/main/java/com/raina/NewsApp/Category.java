@@ -16,20 +16,14 @@ public class Category{
     private Category(String s){
         String[] ss = s.split(" ");
         for(int i = 0; i < 12; i++){
-            exist[i] = ss[i].equals("1");
+            exist[i] = ss[i].equals("true");
         }
     }
     public static Category getCategory(String s) {
-        if (category == null) {
-            synchronized (Category.class) {
-                if (category == null) {
-                    if(s.equals(""))
-                    category= new Category();
-                    else{
-                        category = new Category(s);
-                    }
-                }
-            }
+        if(s == null || s.equals(""))
+            category= new Category();
+        else {
+            category = new Category(s);
         }
         return category;
     }

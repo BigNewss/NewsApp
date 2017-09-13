@@ -83,7 +83,6 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.O
     @Override
     protected void onStart() {
         super.onStart();
-        initNavigationView();
         FileInputStream is;
         InputStreamReader ir;
         BufferedReader in;
@@ -109,7 +108,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.O
             newsListView.setAdapter(adapter);
             onBlockWord = false;
         }
-
+        initNavigationView();
         if(adapter != null) adapter.notifyDataSetChanged();
     }
 
@@ -430,7 +429,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.O
         menu.clear();
         String[] categories = getResources().getStringArray(R.array.categories);
         for(int i = 0; i< 12; i++){
-            if(Category.getCategory("").get(i)){
+            if(Category.get(i)){
                 menu.add(Menu.NONE,Menu.FIRST+i,i,categories[i]);
             }
         }
