@@ -3,11 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:src="@mipmap/header2"
-        android:scaleType="centerCrop"/>
+
+
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -27,13 +24,13 @@
                 android:id="@+id/hint_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="下拉刷新" />
+                android:text="Updating..." />
 
             <TextView
                 android:id="@+id/refresh_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="上次刷新时间：" />
+                android:text="Latest update: " />
 
         </LinearLayout>
 

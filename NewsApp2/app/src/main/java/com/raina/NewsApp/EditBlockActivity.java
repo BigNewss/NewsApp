@@ -74,7 +74,7 @@ public class EditBlockActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
         ((TextView) findViewById(R.id.toolbar_title)).setText("Block");
-        Typeface tf1 = Typeface.createFromAsset(getAssets(), "fonts/Antonio-Regular.ttf");
+        Typeface tf1 = Typeface.createFromAsset(getAssets(), "fonts/Avenir Next.ttc");
         ((TextView) findViewById(R.id.toolbar_title)).setTypeface(tf1);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
