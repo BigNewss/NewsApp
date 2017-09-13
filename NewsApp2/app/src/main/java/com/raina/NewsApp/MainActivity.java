@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.O
         initNewsList();
         initMark();
 
-        titleTypeface = Typeface.createFromAsset(getAssets(), "fonts/Avenir Next.ttc");
+        //titleTypeface = Typeface.createFromAsset(getAssets(), "fonts/SourceHanSans-Heavy.otf");
         //introTypeface = Typeface.createFromAsset(getAssets(), "fonts/SourceHanSans-Normal.otf");
     }
 

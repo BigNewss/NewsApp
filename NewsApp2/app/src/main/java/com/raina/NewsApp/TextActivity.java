@@ -246,7 +246,7 @@ public class TextActivity extends AppCompatActivity {
         ((TextView) findViewById(R.id.textview_subtitle)).setText(MainActivity.currentNews.getNewsAuthor());
 
         final AlphaAnimation aa = new AlphaAnimation(0.0f,1.0f);
-        aa.setDuration(3000);
+        aa.setDuration(1000);
         aa.getFillAfter();
         findViewById(R.id.textview_body).startAnimation(aa);
         aa.setAnimationListener(new Animation.AnimationListener()
