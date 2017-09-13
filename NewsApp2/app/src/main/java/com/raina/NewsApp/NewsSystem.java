@@ -38,6 +38,7 @@ class NewsSystem {
         FileWriter fw;
         String s;
         String res = "";
+        markNewsList = new News[0];
 
         is = context.openFileInput("markList.txt");
         ir = new InputStreamReader(is);

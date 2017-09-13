@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.O
         initNavigationView();
         if(onFavouriteList) {
             updateFavouriteNewsList();
-            onFavouriteList = false;
+            //onFavouriteList = false;
         }
 
         if(adapter != null) adapter.notifyDataSetChanged();
@@ -412,6 +412,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.O
                         news_type = -2;
                         break;
                     case R.id.nav_home:
+                        onFavouriteList = false;
                         updateNewsList();
                         news_type = -1;
                         break;
@@ -446,6 +447,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.O
                         startActivity(blockIntent);
                         break;
                     default:
+                        onFavouriteList = false;
                         news_type = item.getItemId()-1;
                         updateNewsList(item.getItemId());
                         break;
