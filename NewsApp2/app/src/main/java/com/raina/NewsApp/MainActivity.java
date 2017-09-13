@@ -83,7 +83,6 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.O
     @Override
     protected void onStart() {
         super.onStart();
-        initNavigationView();
         FileInputStream is;
         InputStreamReader ir;
         BufferedReader in;
@@ -102,14 +101,14 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.O
         }
         if(onFavouriteList) {
             updateFavouriteNewsList();
-            onFavouriteList = false;
+            //onFavouriteList = false;
         }
         if(onBlockWord) {
             adapter = new NewsAdapter(MainActivity.this, newsList);
             newsListView.setAdapter(adapter);
             onBlockWord = false;
         }
-
+        initNavigationView();
         if(adapter != null) adapter.notifyDataSetChanged();
     }
 
@@ -430,7 +429,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.O
         menu.clear();
         String[] categories = getResources().getStringArray(R.array.categories);
         for(int i = 0; i< 12; i++){
-            if(Category.getCategory("").get(i)){
+            if(Category.get(i)){
                 menu.add(Menu.NONE,Menu.FIRST+i,i,categories[i]);
             }
         }
@@ -454,6 +453,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.O
                         news_type = -2;
                         break;
                     case R.id.nav_home:
+                        onFavouriteList = false;
                         updateNewsList();
                         news_type = -1;
                         break;
@@ -489,6 +489,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.O
                         startActivity(blockIntent);
                         break;
                     default:
+                        onFavouriteList = false;
                         news_type = item.getItemId()-1;
                         updateNewsList(item.getItemId());
                         break;
