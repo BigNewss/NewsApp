@@ -55,6 +55,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.O
     private ArrayList<String> blockList;
     public static Context context;
     private static String THEME_KEY = "theme_mode";
+    private static boolean onFavouriteList = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -83,6 +84,11 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.O
     protected void onStart() {
         super.onStart();
         initNavigationView();
+        if(onFavouriteList) {
+            updateFavouriteNewsList();
+            onFavouriteList = false;
+        }
+
         if(adapter != null) adapter.notifyDataSetChanged();
     }
 
@@ -159,7 +165,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.O
                 intent.putExtra("Intro", ((News)parent.getItemAtPosition(pos)).getNewsIntro());
                 currentNews = (News)parent.getItemAtPosition(pos);
                 MainActivity.this.startActivity(intent);
-                overridePendingTransition(R.anim.fade_out, R.anim.fade_in);
+                overridePendingTransition(R.anim.fade_out, R.anim.fade_in_2);
 
             }
         });
@@ -367,6 +373,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.O
             newsSystem.updateMarkNewsList(getApplicationContext());
         } catch (Exception e) {}
     }
+
     private void initNavigationView(){
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view_drawer);
 
@@ -401,6 +408,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.O
             public boolean onNavigationItemSelected(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.nav_favourite:
+                        onFavouriteList = true;
                         updateFavouriteNewsList();
                         news_type = -2;
                         break;
