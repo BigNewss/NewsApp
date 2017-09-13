@@ -41,6 +41,8 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.O
     public static NewsSystem newsSystem;
     public static boolean picMode = true;
     public static boolean nightMode;
+    public static Typeface titleTypeface;
+    public static Typeface introTypeface;
     private int news_type = -1;
     private ArrayList<News> newsList;
     private NewsAdapter adapter;
@@ -72,8 +74,8 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.O
         initNewsList();
         initMark();
 
-
-
+        titleTypeface = Typeface.createFromAsset(getAssets(), "fonts/Avenir Next.ttc");
+        //introTypeface = Typeface.createFromAsset(getAssets(), "fonts/SourceHanSans-Normal.otf");
     }
 
     @Override
@@ -110,10 +112,6 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.O
             }
         });
 
-
-        Typeface tf1 = Typeface.createFromAsset(getAssets(), "fonts/Bodoni 72.ttc");
-        ((TextView) findViewById(R.id.toolbar_title)).setTypeface(tf1);
-
     }
 
     private void initToolbar() {
@@ -123,7 +121,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.O
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
         ((TextView) findViewById(R.id.toolbar_title)).setText("Nouvelle");
-        Typeface tf1 = Typeface.createFromAsset(getAssets(), "fonts/Bodoni 72.ttc");
+        Typeface tf1 = Typeface.createFromAsset(getAssets(), "fonts/LobsterTwo-Italic.otf");
         ((TextView) findViewById(R.id.toolbar_title)).setTypeface(tf1);
     }
 
@@ -165,14 +163,6 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.O
             }
         });
 
-        /*
-        Typeface tf1 = Typeface.createFromAsset(getAssets(), "fonts/Avenir Next Condensed.ttc");
-        try {
-            ((TextView) findViewById(R.id.news_title)).setTypeface(tf1);
-        }catch(Exception e) {
-            Toast.makeText(MainActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
-        }
-        */
     }
 
     /* show latest news */
@@ -423,13 +413,13 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.O
                         break;
                     case R.id.nav_color_mode:
                         if(!nightMode) {
+                            nightMode = true;
                             AppContext.me().setTheme(MainActivity.this, true);
                             Toast.makeText(MainActivity.this, "Day", Toast.LENGTH_SHORT).show();
-                            nightMode = true;
                         } else {
+                            nightMode = false;
                             AppContext.me().setTheme(MainActivity.this, false);
                             Toast.makeText(MainActivity.this, "Night", Toast.LENGTH_SHORT).show();
-                            nightMode = false;
                         }
                         break;
                     case R.id.nav_text_mode:

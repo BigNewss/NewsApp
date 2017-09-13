@@ -3,6 +3,7 @@ package com.raina.NewsApp;
 import java.util.*;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.widget.ArrayAdapter;
 import android.view.View;
@@ -19,6 +20,7 @@ public class NewsAdapter extends BaseAdapter{
     private LayoutInflater inflater;
     private Context context;
     private List<News> items = new ArrayList<News>();
+
     public NewsAdapter(Context context, List<News> arrayList) {
         this.context = context;
         this.items = arrayList;
@@ -59,16 +61,17 @@ public class NewsAdapter extends BaseAdapter{
         if(news.hasRead())
             viewHolder.newsTitle.setTextColor(convertView.getResources().getColor(R.color.colorSeen));
         else
-<<<<<<< HEAD
-            viewHolder.newsTitle.setTextColor(convertView.getResources().getColor(R.color.colorPrimaryDark));
-
-=======
             viewHolder.newsTitle.setTextColor(convertView.getResources().getColor(R.color.title_color));
->>>>>>> ecc2c1d3ea0073291b4856d7b678d31362cc542d
+
         viewHolder.newsIntro.setText(items.get(position).getNewsIntro());
         viewHolder.newsTitle.setText(items.get(position).getNewsTitle());
+
+
+        //viewHolder.newsTitle.setTypeface(MainActivity.titleTypeface);
+        //viewHolder.newsIntro.setTypeface(MainActivity.introTypeface);
         return convertView;
     }
+
 
     public void onDateChange(List<News> items) {
         this.items = items;
