@@ -16,7 +16,7 @@ class GetPictures {
         while ((inputLine = in.readLine()) != null)
             wholePage += inputLine;
         in.close();
-        String pattern = "(?<=\"objURL\":\")(\\s|\\S)*?(?=\")";
+        String pattern = "(?<=\"thumbURL\":\")(\\s|\\S)*?(?=\")";
         Pattern p = Pattern.compile(pattern);
         Matcher m = p.matcher(wholePage);
         if (m.find()) {
