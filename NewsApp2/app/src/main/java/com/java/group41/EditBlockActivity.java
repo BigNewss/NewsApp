@@ -1,7 +1,6 @@
-package com.raina.NewsApp;
+package com.java.group41;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,6 +14,8 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.io.FileOutputStream;
 
 
 public class EditBlockActivity extends AppCompatActivity {
@@ -35,6 +36,34 @@ public class EditBlockActivity extends AppCompatActivity {
         super.onStart();
         if(adapter != null)
             adapter.notifyDataSetChanged();
+        initView();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        try {
+            FileOutputStream fw = openFileOutput("blockList.txt", Context.MODE_PRIVATE);
+            String s = Block.saveBlock();
+            fw.write(s.getBytes());
+            fw.close();
+        } catch (Exception e) {}
+        switch (MainActivity.news_type) {
+            case -1:
+                //newsSystem.getLatestNews();
+                MainActivity.newsList = MainActivity.newsSystem.getLatestNewsList();
+                break;
+            case 13:
+                //newsSystem.searchNews();
+                MainActivity.newsList = MainActivity.newsSystem.getSearchNewsList();
+                break;
+            default:
+                //newsSystem.getCategoryNews(news_type);
+                try {
+                    MainActivity.newsList = MainActivity.newsSystem.getCategoryNewsList(MainActivity.news_type);
+                } catch (Exception e) {}
+                break;
+        }
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {

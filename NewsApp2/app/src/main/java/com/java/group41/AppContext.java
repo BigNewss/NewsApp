@@ -1,4 +1,4 @@
-package com.raina.NewsApp;
+package com.java.group41;
 
 /**
  * Created by pilgrims on 12/09/2017.
@@ -9,9 +9,10 @@ import android.app.Application;
 import android.content.res.Configuration;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
+import com.mob.MobApplication;
 
 
-public class AppContext extends Application {
+public class AppContext extends MobApplication {
     private static String THEME_KEY = "theme_mode";
     private static AppContext appContext;
     private boolean isNight;

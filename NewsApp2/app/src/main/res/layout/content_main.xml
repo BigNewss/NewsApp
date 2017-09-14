@@ -14,7 +14,7 @@
 
 
 
-        <com.raina.NewsApp.RefreshListView
+        <com.java.group41.RefreshListView
             android:id="@+id/listview_news"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -22,7 +22,7 @@
             android:divider="#00000000"
             android:dividerHeight="0dip"
             android:scrollbars="none">
-        </com.raina.NewsApp.RefreshListView>
+        </com.java.group41.RefreshListView>
 
     </LinearLayout>
 </LinearLayout>

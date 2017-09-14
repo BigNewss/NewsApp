@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.raina.NewsApp">
+          package="com.java.group41">
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
@@ -13,30 +13,32 @@
     <uses-permission android:name="android.permission.READ_CONTACTS"/>
 
     <application
-        android:name=".AppContext"
+        android:name="com.java.group41.AppContext"
         android:allowBackup="true"
         android:icon="@drawable/icon"
         android:label="41_杨一滨"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <meta-data android:name="Mob-AppKey" android:value="20f2b0aae2390"/>
+        <meta-data android:name="Mob-AppSecret" android:value="ea5ad50a30012f30c739b017f47f5ae1"/>
         <activity
-            android:name=".startActivity">
+            android:name="com.java.group41.startActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity">
+        <activity android:name="com.java.group41.MainActivity">
         </activity>
         <activity
-            android:name=".TextActivity"
+            android:name="com.java.group41.TextActivity"
             android:label="@string/title_activity_text"
             android:theme="@style/AppTheme">
         </activity>
-        <activity android:name=".EditCategoryActivity"/>
-        <activity android:name=".EditBlockActivity">
+        <activity android:name="com.java.group41.EditCategoryActivity"/>
+        <activity android:name="com.java.group41.EditBlockActivity">
         </activity>
         <activity
             android:name="com.mob.tools.MobUIShell"

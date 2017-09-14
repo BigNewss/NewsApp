@@ -1,22 +1,16 @@
-package com.raina.NewsApp;
+package com.java.group41;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.os.Handler;
 import android.support.design.widget.NavigationView;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.SearchView;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
-import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.support.v7.widget.Toolbar;
@@ -25,10 +19,6 @@ import android.view.MenuItem;
 import android.view.Menu;
 import android.content.Intent;
 import android.os.StrictMode;
-import android.widget.Button;
-import android.support.v4.view.MenuItemCompat;
-import java.lang.reflect.Method;
-import android.util.Log;
 import android.support.design.internal.NavigationMenuView;
 import android.graphics.Typeface;
 import android.view.SubMenu;
@@ -72,13 +62,13 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.O
                 .penaltyLog().penaltyDeath().build());
         nightMode = ConfigUtil.getBoolean(THEME_KEY, false);
 
-        initDrawer();
-        initNewsList();
-        initMark();
+
 
         //titleTypeface = Typeface.createFromAsset(getAssets(), "fonts/SourceHanSans-Heavy.otf");
         //introTypeface = Typeface.createFromAsset(getAssets(), "fonts/SourceHanSans-Normal.otf");
     }
+
+    boolean firsttime = true;
 
     @Override
     protected void onStart() {
@@ -99,6 +89,18 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.O
         } catch (Exception e) {
 
         }
+        try {
+            is = openFileInput("blockList.txt");
+            ir = new InputStreamReader(is);
+            in = new BufferedReader(ir);
+            s = in.readLine();
+            in.close();
+            ir.close();
+            is.close();
+            Block.setBlock(s);
+        } catch (Exception e) {
+
+        }
         if(onFavouriteList) {
             updateFavouriteNewsList();
             //onFavouriteList = false;
@@ -108,7 +110,12 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.O
             newsListView.setAdapter(adapter);
             onBlockWord = false;
         }
-        initNavigationView();
+        if (firsttime) {
+            firsttime = false;
+            initDrawer();
+            initNewsList();
+            initMark();
+        } else initNavigationView();
         if(adapter != null) adapter.notifyDataSetChanged();
     }
 
@@ -183,6 +190,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.O
                 intent.putExtra("keywords", ((News)parent.getItemAtPosition(pos)).getKeyWords());
                 intent.putExtra("URL", ((News)parent.getItemAtPosition(pos)).getNewsURL());
                 intent.putExtra("Intro", ((News)parent.getItemAtPosition(pos)).getNewsIntro());
+                intent.putExtra("author", ((News)parent.getItemAtPosition(pos)).getNewsAuthor());
                 currentNews = (News)parent.getItemAtPosition(pos);
                 MainActivity.this.startActivity(intent);
                 overridePendingTransition(R.anim.fade_out, R.anim.fade_in_2);

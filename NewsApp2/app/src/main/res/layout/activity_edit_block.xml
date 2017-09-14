@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.raina.NewsApp.EditBlockActivity">
+    tools:context="com.java.group41.EditBlockActivity">
     <LinearLayout
         android:id="@+id/content_main"
         android:layout_width="match_parent"

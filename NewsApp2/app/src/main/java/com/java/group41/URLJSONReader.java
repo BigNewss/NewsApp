@@ -1,4 +1,4 @@
-package com.raina.NewsApp;
+package com.java.group41;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -10,7 +10,6 @@ import java.nio.charset.Charset;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.json.JSONArray;
 
 public class URLJSONReader {
 

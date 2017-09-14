@@ -1,15 +1,12 @@
-package com.raina.NewsApp;
+package com.java.group41;
 
 import java.util.*;
 
 import android.content.Context;
-import android.graphics.Typeface;
 import android.view.LayoutInflater;
-import android.widget.ArrayAdapter;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 /**

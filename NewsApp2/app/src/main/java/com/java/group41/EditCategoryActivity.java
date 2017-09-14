@@ -1,24 +1,15 @@
-package com.raina.NewsApp;;
+package com.java.group41;;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.ButtonBarLayout;
 import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.Toast;
-import android.widget.ImageButton;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.InputStreamReader;
 
 /**
  * Created by pilgrims on 09/09/2017.
@@ -49,6 +40,7 @@ public class EditCategoryActivity extends Activity implements View.OnClickListen
     @Override
     protected void onStart() {
         super.onStart();
+
     }
 
     //保存持久性数据
