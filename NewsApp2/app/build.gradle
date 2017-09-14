@@ -1,6 +1,8 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+    }
     compileSdkVersion 26
     buildToolsVersion "26.0.1"
     defaultConfig {
@@ -21,6 +23,8 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+        debug {
+        }
     }
 }
 
@@ -35,14 +39,12 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.android.support:design:26.0.0-alpha1'
     compile 'com.android.support:support-v4:26.0.0-alpha1'
-
     testCompile 'junit:junit:4.12'
-
     compile files('src/main/libs/json-20170516.jar')
     compile files('libs/Msc.jar')
-    compile files('libs/MobCommons-2017.0823.1556.jar')
-    compile files('libs/MobTools-2017.0823.1556.jar')
     compile files('libs/ShareSDK-Core-3.0.2.jar')
-    compile files('libs/ShareSDK-QQ-3.0.2.jar')
+    compile files('libs/MobTools-2017.0823.1556.jar')
+    compile files('libs/MobCommons-2017.0823.1556.jar')
     compile files('libs/ShareSDK-SinaWeibo-3.0.2.jar')
+    compile files('libs/ShareSDK-QQ-3.0.2.jar')
 }

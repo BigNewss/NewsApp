@@ -190,6 +190,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.O
                 intent.putExtra("keywords", ((News)parent.getItemAtPosition(pos)).getKeyWords());
                 intent.putExtra("URL", ((News)parent.getItemAtPosition(pos)).getNewsURL());
                 intent.putExtra("Intro", ((News)parent.getItemAtPosition(pos)).getNewsIntro());
+                intent.putExtra("author", ((News)parent.getItemAtPosition(pos)).getNewsAuthor());
                 currentNews = (News)parent.getItemAtPosition(pos);
                 MainActivity.this.startActivity(intent);
                 overridePendingTransition(R.anim.fade_out, R.anim.fade_in_2);

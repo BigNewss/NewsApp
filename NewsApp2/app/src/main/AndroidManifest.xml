@@ -20,6 +20,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <meta-data android:name="Mob-AppKey" android:value="20f2b0aae2390"/>
+        <meta-data android:name="Mob-AppSecret" android:value="ea5ad50a30012f30c739b017f47f5ae1"/>
         <activity
             android:name="com.java.group41.startActivity">
             <intent-filter>
