@@ -31,7 +31,7 @@
                        android:layout_height="wrap_content"
                        android:layout_gravity="center_horizontal"
                        android:adjustViewBounds="true"
-                       android:src="@drawable/icon_loading">
+                       android:src="@mipmap/icon_loading">
             </ImageView>
 
             <LinearLayout
