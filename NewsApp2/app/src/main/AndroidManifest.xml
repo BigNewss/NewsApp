@@ -16,7 +16,7 @@
         android:name=".AppContext"
         android:allowBackup="true"
         android:icon="@drawable/icon"
-        android:label="Nouvelle"
+        android:label="41_杨一滨"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
