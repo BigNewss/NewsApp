@@ -1,4 +1,4 @@
-package com.raina.NewsApp;
+package com.java.group41;
 
 import android.content.Context;
 import android.view.LayoutInflater;

@@ -1,9 +1,7 @@
-package com.raina.NewsApp;
+package com.java.group41;
 
-import java.util.Scanner;
 import java.net.*;
 import java.io.*;
-import java.util.*;
 import java.util.regex.*;
 
 class GetPictures {

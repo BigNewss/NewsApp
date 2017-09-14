@@ -1,4 +1,4 @@
-package com.raina.NewsApp;
+package com.java.group41;
 
 /**
  * Created by pilgrims on 09/09/2017.

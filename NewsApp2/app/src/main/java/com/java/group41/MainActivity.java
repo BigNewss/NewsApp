@@ -1,22 +1,16 @@
-package com.raina.NewsApp;
+package com.java.group41;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.os.Handler;
 import android.support.design.widget.NavigationView;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.SearchView;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
-import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.support.v7.widget.Toolbar;
@@ -25,10 +19,6 @@ import android.view.MenuItem;
 import android.view.Menu;
 import android.content.Intent;
 import android.os.StrictMode;
-import android.widget.Button;
-import android.support.v4.view.MenuItemCompat;
-import java.lang.reflect.Method;
-import android.util.Log;
 import android.support.design.internal.NavigationMenuView;
 import android.graphics.Typeface;
 import android.view.SubMenu;
@@ -125,7 +115,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.O
             initDrawer();
             initNewsList();
             initMark();
-        }
+        } else initNavigationView();
         if(adapter != null) adapter.notifyDataSetChanged();
     }
 

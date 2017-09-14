@@ -1,4 +1,4 @@
-package com.raina.NewsApp;
+package com.java.group41;
 
 import java.util.*;
 

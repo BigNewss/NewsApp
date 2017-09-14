@@ -1,16 +1,12 @@
-package com.raina.NewsApp;
+package com.java.group41;
 
-import java.lang.Math.*;
-import java.net.*;
 import java.io.*;
 import java.util.*;
-import java.util.regex.*;
 
-import org.json.HTTP;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONArray;
-import android.app.Activity;
+
 import android.content.Context;
 
 import java.net.HttpURLConnection;
