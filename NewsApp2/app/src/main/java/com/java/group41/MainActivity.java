@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.support.v7.widget.Toolbar;
 import android.graphics.Color;
 import android.view.MenuItem;
@@ -160,19 +159,14 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.O
     }
 
     private void initNewsList(){
-        Toast.makeText(MainActivity.this, "news list", Toast.LENGTH_SHORT).show();
-        //newsListView = (ListView) findViewById(R.id.listview_news);
         newsListView = (RefreshListView) findViewById(R.id.listview_news);
         newsListView.setOnRefreshListener(this);
-        //ImageView headerImage = (ImageView) LayoutInflater.from(this).inflate(R.layout.list_view_header_layout, newsListView, false);
-        //newsListView.addHeaderView(headerImage);
 
         initNews();
         prevNewsList = (ArrayList<News>) newsList.clone();
         //adapter = new NewsAdapter(MainActivity.this, R.layout.news_item_layout, newsList);
         adapter = new NewsAdapter(this, newsList);
         newsListView.setAdapter(adapter);
-        Toast.makeText(MainActivity.this, "~", Toast.LENGTH_SHORT).show();
 
         newsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -211,7 +205,6 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.O
                 newsSystem.getLatestNews();
             newsList = newsSystem.getLatestNewsList();
         } catch(Exception e) {
-            Toast.makeText(MainActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
         }
         prevNewsList = (ArrayList<News>) newsList.clone();
         adapter = new NewsAdapter(MainActivity.this, newsList);
@@ -227,7 +220,6 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.O
                 newsSystem.getCategoryNews(type);
             newsList = newsSystem.getCategoryNewsList(type);
         } catch(Exception e) {
-            Toast.makeText(MainActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
         }
         prevNewsList = (ArrayList<News>) newsList.clone();
         //adapter = new NewsAdapter(MainActivity.this, R.layout.news_item_layout, Arrays.asList(categoryNewsList));
@@ -250,7 +242,6 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.O
                 newsSystem.searchNews();
             newsList = newsSystem.getSearchNewsList();
         } catch(Exception e) {
-            Toast.makeText(MainActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
         }
         //prevNewsList = (ArrayList<News>) newsList.clone();
         //adapter = new NewsAdapter(MainActivity.this, R.layout.news_item_layout, Arrays.asList(searchNewsList));
@@ -264,7 +255,6 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.O
         try{
             favouriteNewsList = newsSystem.getMarkNewsList();
         } catch(Exception e) {
-            Toast.makeText(MainActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
         }
         newsList = favouriteNewsList;
         prevNewsList = (ArrayList<News>) favouriteNewsList.clone();
@@ -289,7 +279,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.O
 
     private void translucentStatusBar() {
         getWindow().setStatusBarColor(Color.TRANSPARENT);
-        getWindow().setNavigationBarColor(getResources().getColor(R.color.colorGrey));
+        getWindow().setNavigationBarColor(getResources().getColor(R.color.black));
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN|View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
 
     }
@@ -317,7 +307,6 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.O
             public boolean onQueryTextSubmit(String query) {
                 if(searchView != null) {
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                    Toast.makeText(MainActivity.this, query, Toast.LENGTH_SHORT).show();
                     updateNewsList(query);
                     if(imm != null) {
                         imm.hideSoftInputFromWindow(searchView.getWindowToken(), 0);
@@ -358,10 +347,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.O
             newsSystem = new NewsSystem();
             newsSystem.getLatestNews();
             newsList = newsSystem.getLatestNewsList();
-            Toast.makeText(MainActivity.this, "Successful", Toast.LENGTH_SHORT).show();
-
         }catch (Exception e) {
-            Toast.makeText(MainActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -475,11 +461,9 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.O
                         if(!nightMode) {
                             nightMode = true;
                             AppContext.me().setTheme(MainActivity.this, true);
-                            Toast.makeText(MainActivity.this, "Day", Toast.LENGTH_SHORT).show();
                         } else {
                             nightMode = false;
                             AppContext.me().setTheme(MainActivity.this, false);
-                            Toast.makeText(MainActivity.this, "Night", Toast.LENGTH_SHORT).show();
                         }
                         break;
                     case R.id.nav_text_mode:
@@ -521,7 +505,6 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.O
      */
     @Override
     public void onDownPullRefresh() {
-        Toast.makeText(this,"下拉",Toast.LENGTH_SHORT).show();
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
@@ -551,7 +534,6 @@ public class MainActivity extends AppCompatActivity implements RefreshListView.O
      */
     @Override
     public void onLoadingMore() {
-        Toast.makeText(this,"上拉",Toast.LENGTH_SHORT).show();
         if (news_type == -2) {
             Handler handler = new Handler();
             handler.postDelayed(new Runnable() {

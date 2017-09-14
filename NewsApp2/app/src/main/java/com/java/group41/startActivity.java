@@ -19,7 +19,7 @@ public class startActivity extends Activity {
         super.onCreate(savedInstanceState);
         final View view = View.inflate(this, R.layout.activity_start, null);
         setContentView(view);
-
+        getWindow().setNavigationBarColor(getResources().getColor(R.color.black));
         //渐变展示启动屏
         AlphaAnimation aa = new AlphaAnimation(0.0f,1.0f);
         aa.setDuration(3000);

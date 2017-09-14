@@ -13,7 +13,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.io.FileOutputStream;
 
@@ -80,7 +79,6 @@ public class EditBlockActivity extends AppCompatActivity {
             public boolean onQueryTextSubmit(String query) {
                 if(searchView != null) {
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                    Toast.makeText(EditBlockActivity.this, query, Toast.LENGTH_SHORT).show();
                     if(imm != null) {
                         imm.hideSoftInputFromWindow(searchView.getWindowToken(), 0);
                         addBlock(query);
@@ -129,7 +127,6 @@ public class EditBlockActivity extends AppCompatActivity {
         });
     }
     private void initView(){
-        Toast.makeText(this, "news list", Toast.LENGTH_SHORT).show();
         blockListView = (ListView) findViewById(R.id.block_list_view);
         adapter = new BlockAdapter(this, Block.blockList);
         blockListView.setAdapter(adapter);
